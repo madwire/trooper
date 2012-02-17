@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+
+require 'trooper'
+require 'trooper/cli'
+
+Trooper::CLI.start
