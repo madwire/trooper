@@ -30,8 +30,8 @@ describe "CLI" do
 	describe "without any arguments'" do
 	 
 		it "should raise an error" do
-			lambda { Trooper::CLI.start([]) }.should raise_error(Trooper::CliArgumentError)
-			lambda { Trooper::CLI.start("-d".split(' ')) }.should raise_error(Trooper::CliArgumentError)
+			lambda { Trooper::CLI.new([]) }.should raise_error(Trooper::CliArgumentError)
+			lambda { Trooper::CLI.new("-d".split(' ')) }.should raise_error(Trooper::CliArgumentError)
 		end
 	
 	end
