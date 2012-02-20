@@ -2,8 +2,8 @@ require 'trooper/version'
 require 'trooper/logger'
 
 module Trooper
-	
-	# Base class for all Trooper exceptions
+  
+  # Base class for all Trooper exceptions
   class TrooperError < StandardError
   end
 

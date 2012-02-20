@@ -5,35 +5,35 @@ require 'trooper/cli'
 
 describe "CLI" do
 
-	describe "with a strategy and environment passed" do
-	 
-		before do
-			# trooper deploy production -d
-			@command = 'deploy production -d'
-			@cli = Trooper::CLI.start(@command.split(' '))
-		end
-	 
-		it "should determine the strategy to run" do
-			@cli.strategy.should == 'deploy'
-		end
+  describe "with a strategy and environment passed" do
+   
+    before do
+      # trooper deploy production -d
+      @command = 'deploy production -d'
+      @cli = Trooper::CLI.start(@command.split(' '))
+    end
+   
+    it "should determine the strategy to run" do
+      @cli.strategy.should == 'deploy'
+    end
 
-		it "should determine the environment to run" do
-			@cli.environment.should == 'production'
-		end
+    it "should determine the environment to run" do
+      @cli.environment.should == 'production'
+    end
 
-		it "should match the passed options" do
-			@cli.options.should == { :debug => true }
-		end
-	
-	end
+    it "should match the passed options" do
+      @cli.options.should == { :debug => true }
+    end
+  
+  end
 
-	describe "without any arguments'" do
-	 
-		it "should raise an error" do
-			lambda { Trooper::CLI.new([]) }.should raise_error(Trooper::CliArgumentError)
-			lambda { Trooper::CLI.new("-d".split(' ')) }.should raise_error(Trooper::CliArgumentError)
-		end
-	
-	end
+  describe "without any arguments'" do
+   
+    it "should raise an error" do
+      lambda { Trooper::CLI.new([]) }.should raise_error(Trooper::CliArgumentError)
+      lambda { Trooper::CLI.new("-d".split(' ')) }.should raise_error(Trooper::CliArgumentError)
+    end
+  
+  end
 
 end
