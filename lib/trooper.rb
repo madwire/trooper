@@ -15,4 +15,12 @@ module Trooper
   class CliArgumentError < TrooperError
   end
 
+  # When a command(s) return a stderr stream
+  class StdError < TrooperError
+  end
+
+  # When a command is not formed corrently arrays or strings are exceptal commands
+  class MalformedCommandError < TrooperError
+  end
+
 end
