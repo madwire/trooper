@@ -3,14 +3,14 @@
 require 'spec_helper'
 require 'trooper/cli'
 
-require 'trooper/dsl/strategy'
+require 'trooper/config/strategy'
 require 'trooper/strategies'
 
-describe "DSL Strategy" do
+describe "Config Strategy" do
 
   before do
     @klass = Class.new do
-      include Trooper::DSL::Strategy
+      include Trooper::Config::Strategy
     end.new
   end
 

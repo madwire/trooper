@@ -1,7 +1,7 @@
 require 'trooper/strategy'
 
 module Trooper
-  module DSL
+  module Config
     module Strategy
       
       def strategy(name, description = "No Description", &block)
