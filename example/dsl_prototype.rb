@@ -19,31 +19,24 @@ requisite :setup, :pre => :bootstrap do
   #something
 end
 
-prerequisite :setup, :for => :update
-
-action :restart do
-  run 'touch tmp/restert.txt'
+action :some_global_action do
+  run 'touch test.txt'
 end
 
-strategy :update do
-  desc 'Update the code base on the server'
+strategy :update, 'Update the code base on the server' do
   prerequisite :setup
 
   actions :update_repository, :install_gems
   call :restart
 end
 
-strategy :deploy do
-  desc 'Full deployment to the server'
-
+strategy :deploy, 'Full deployment to the server' do
   call :update
   actions :migrate_database
   call :restart
 end
 
-strategy :restart do
-  desc 'Restart application'
-
+strategy :restart, 'Restart application' do
   action :restart do
     run 'touch tmp/restert.txt'
   end
