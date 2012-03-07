@@ -23,4 +23,7 @@ module Trooper
   class MalformedCommandError < TrooperError
   end
 
+  class NoConfigurationFileError < TrooperError
+  end
+
 end
