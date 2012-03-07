@@ -8,21 +8,35 @@ describe "CLI" do
   describe "with a strategy and environment passed" do
    
     before do
-      # trooper deploy production -d
-      @command = 'deploy production -d'
+      # trooper deploy -e production -d
+      @command = 'deploy -e production -d'
       @cli = Trooper::CLI.start(@command.split(' '))
     end
    
     it "should determine the strategy to run" do
-      @cli.strategy.should == 'deploy'
-    end
-
-    it "should determine the environment to run" do
-      @cli.environment.should == 'production'
+      @cli.command.should == 'deploy'
     end
 
     it "should match the passed options" do
-      @cli.options.should == { :debug => true }
+      @cli.options.should == { :debug => true, :environment => :production }
+    end
+  
+  end
+
+  describe "with a strategy and no environment passed" do
+   
+    before do
+      # trooper deploy
+      @command = 'deploy'
+      @cli = Trooper::CLI.start(@command.split(' '))
+    end
+   
+    it "should determine the strategy to run" do
+      @cli.command.should == 'deploy'
+    end
+
+    it "should have a default environment" do
+      @cli.options[:environment].should == :production
     end
   
   end

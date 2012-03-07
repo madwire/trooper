@@ -9,14 +9,15 @@ module Trooper
       cli
     end
 
-    attr_reader :strategy, :environment, :options, :argv
+    attr_reader :command, :options, :argv
+    attr_accessor :config
 
     def initialize(argv)
       @argv = argv
-      @options = {}
-      @strategy, @environment = option_parser.parse!(@argv)
+      @options = { :environment => :production }
 
-      raise CliArgumentError, "You didnt pass a strategy" if @strategy == nil
+      @command = option_parser.parse!(@argv)[0]
+      raise CliArgumentError, "You didnt pass an action" if @command == nil
     end
 
     def execute
@@ -27,11 +28,15 @@ module Trooper
 
     def option_parser
       @option_parser ||= ::OptionParser.new do |op|
-        op.banner = 'Usage: trooper <strategy> <environment> [options]'      
+        op.banner = 'Usage: trooper <command> [options]'      
         op.separator ''
 
         op.on "-d", "--debug", "Debuy" do 
           @options[:debug] = true
+        end
+
+        op.on "-e", "--env ENV", "Environment" do |e|
+          @options[:environment] = e.to_sym
         end
 
         op.on_tail "-h", "--help", "Help" do 
@@ -39,8 +44,8 @@ module Trooper
           exit
         end
 
-        op.on_tail "--version", "Show version" do
-          puts Trooper::Version::STRING
+        op.on_tail "-v", "--version", "Show version" do
+          puts "Trooper v#{Trooper::Version::STRING}"
           exit
         end
 
