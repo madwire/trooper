@@ -6,7 +6,7 @@ module Trooper
       
       def strategy(name, description = "No Description", &block)
         strategy = Trooper::Strategy.new name, description, &block
-        Trooper::Strategies.add strategy
+        Trooper::Arsenal.strategies.add strategy
       end
 
     end

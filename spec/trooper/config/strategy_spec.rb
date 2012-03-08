@@ -1,10 +1,9 @@
 # encoding: utf-8
 
 require 'spec_helper'
-require 'trooper/cli'
 
 require 'trooper/config/strategy'
-require 'trooper/strategies'
+require 'trooper/arsenal'
 
 describe "Config Strategy" do
 
@@ -15,7 +14,7 @@ describe "Config Strategy" do
   end
 
   after do
-    Trooper::Strategies.clear!
+    Trooper::Arsenal.reset!
   end
 
   it "should return a Strategy object" do
@@ -23,16 +22,16 @@ describe "Config Strategy" do
   end
 
   it "should have added the Strategy object to the Strategies list" do
-    Trooper::Strategies[:my_strategy].should be_nil
+    Trooper::Arsenal.strategies[:my_strategy].should be_nil
     @klass.strategy(:my_strategy)
-    Trooper::Strategies[:my_strategy].should be_a_kind_of(Trooper::Strategy) 
+    Trooper::Arsenal.strategies[:my_strategy].should be_a_kind_of(Trooper::Strategy) 
   end
 
   it "should overide a strategy in the Strategies list" do
     @klass.strategy(:my_strategy, "A")
-    Trooper::Strategies[:my_strategy].description.should == "A"
+    Trooper::Arsenal.strategies[:my_strategy].description.should == "A"
     @klass.strategy(:my_strategy, "B")
-    Trooper::Strategies[:my_strategy].description.should == "B"
+    Trooper::Arsenal.strategies[:my_strategy].description.should == "B"
   end
 
 end
