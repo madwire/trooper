@@ -1,4 +1,3 @@
-
 module Trooper
   module DSL
     module Bundler
@@ -10,6 +9,10 @@ module Trooper
 
       def bundle_install
         run "bundle install --path #{path}/trooper/bundle --deployment --without development test" if using_bundler?
+      end
+
+      def rake(command)
+        bundle_exec "rake #{command}"
       end
       
       private

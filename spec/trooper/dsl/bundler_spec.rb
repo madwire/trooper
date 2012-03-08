@@ -66,6 +66,15 @@ describe 'Bundler' do
     end
     
   end
+
+  describe 'when calling rake' do
+    
+    it 'should construct an array of commands' do
+      @klass.rake 'db:seed'
+      @klass.commands.should == ["bundle exec rake db:seed"]
+    end
+    
+  end
   
 end
  
