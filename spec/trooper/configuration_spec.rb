@@ -94,6 +94,14 @@ describe "Configuration" do
       @configuration[:my_value].should  == 'something_else'
     end
 
+    it "should have 3 strategies in its arsenal" do
+      Trooper::Arsenal.strategies.count.should == 3
+    end
+
+    it "should have 1 action in its arsenal" do
+      Trooper::Arsenal.actions.count.should == 1
+    end
+
   end
 
 end
