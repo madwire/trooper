@@ -6,7 +6,9 @@ require 'trooper/action'
 describe "Action" do
 
   before do
-    @action = Trooper::Action.new :my_action, 'description'
+    @action = Trooper::Action.new :my_action, 'description' do
+      run 'touch test.txt'
+    end
   end
 
   it "should have a name" do
@@ -15,6 +17,11 @@ describe "Action" do
 
   it "should have a description" do
     @action.description.should == 'description'
+  end
+
+  it "should be able to pass a block" do
+    @action.ok?.should == true
+    @action.commands.should == ['touch test.txt']
   end
 
 end
