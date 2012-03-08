@@ -27,12 +27,14 @@ describe "Arsenal" do
   it "should be able to find an object that responds to name" do
     Trooper::Arsenal.strategies.add @klass
     Trooper::Arsenal.strategies[:my_name].should == @klass
+    Trooper::Arsenal.strategies.find_by_name(:my_name).should == @klass
   end
 
   it "should be able to add an object to the list" do
     Trooper::Arsenal.strategies[:my_name].should be_nil
     Trooper::Arsenal.strategies.add @klass
     Trooper::Arsenal.strategies[:my_name].should == @klass
+    Trooper::Arsenal.strategies.find_by_name(:my_name).should == @klass
   end
 
   it "should be able to over-write an exsting object with the same name" do
@@ -55,11 +57,22 @@ describe "Arsenal" do
     Trooper::Arsenal.strategies[:my_name].should == @klass2
   end
 
-  it "should reset the array if clear! is called" do
+  it "should clear the array if clear! is called" do
     Trooper::Arsenal.strategies.add @klass
     Trooper::Arsenal.strategies.count.should == 1
     Trooper::Arsenal.strategies.clear!
     Trooper::Arsenal.strategies.count.should == 0
+  end
+
+  it "should reset Arsenal" do
+    Trooper::Arsenal.strategies.add @klass
+    Trooper::Arsenal.strategies.count.should == 1
+    Trooper::Arsenal.actions.add @klass
+    Trooper::Arsenal.actions.count.should == 1
+    Trooper::Arsenal.reset!
+
+    Trooper::Arsenal.strategies.count.should == 0
+    Trooper::Arsenal.actions.count.should == 0
   end
 
 end
