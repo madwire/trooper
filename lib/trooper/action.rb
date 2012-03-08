@@ -1,5 +1,12 @@
+require 'trooper/dsl/folders'
+require 'trooper/dsl/rake'
+require 'trooper/dsl/bundler'
+
 module Trooper
   class Action
+    include Trooper::DSL::Folders
+    include Trooper::DSL::Rake
+    include Trooper::DSL::Bundler
 
     attr_reader :name, :description
     attr_accessor :commands

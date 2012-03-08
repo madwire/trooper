@@ -15,6 +15,10 @@ describe "Action" do
     end
   end
 
+  after do
+    @action, @action2 = nil
+  end
+
   it "should have a name" do
     @action.name.should == :my_action
   end
@@ -29,6 +33,15 @@ describe "Action" do
 
     @action2.ok?.should == true
     @action2.commands.should == ['touch test.txt']
+  end
+
+  it "should add strings to the commands array" do
+    @action.commands.clear
+
+    @action.run 'my_command1'
+    @action.commands.should == ["my_command1"]
+    @action.run 'my_command2'
+    @action.commands.should == ["my_command1", "my_command2"]
   end
 
 end
