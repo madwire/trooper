@@ -5,7 +5,7 @@ require 'spec_helper'
 require 'trooper/config/action'
 require 'trooper/arsenal'
 
-describe "Config Strategy" do
+describe "Config Action" do
 
   before do
     @klass = Class.new do
