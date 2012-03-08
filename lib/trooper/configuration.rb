@@ -21,9 +21,9 @@ module Trooper
       @data = {}
       @loaded = false
       @file_name = options[:file_name] || FILE_NAME
+      @data[:environment] = options[:environment] || :production
 
-      load_troopfile!
-      merge_with_data options
+      load_troopfile! options
     end 
 
     # def execute(strategy_name)
@@ -48,12 +48,13 @@ module Trooper
       @data.merge! options
     end
 
-    def load_troopfile!
+    def load_troopfile!(options)
       if troopfile?
         eval troopfile.read
         @loaded = true
-
+        
         load_environment!
+        merge_with_data options
       else
         raise Trooper::NoConfigurationFileError, "No Configuration file (#{@file_name}) can be found!"
       end

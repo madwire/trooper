@@ -14,7 +14,7 @@ module Trooper
         set :user => arg 
       end
 
-      def hosts(arg)
+      def hosts(*arg)
         set :hosts => [*arg] 
       end
 
