@@ -3,6 +3,9 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'trooper'
 require 'rspec'
 
+require 'simplecov'
+SimpleCov.start
+
 RSpec.configure do |config|
   # config
 end
