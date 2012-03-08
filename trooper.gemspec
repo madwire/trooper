@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry", "~> 0.9"
   s.add_development_dependency "sdoc", '~> 0.3.16'
   s.add_development_dependency "simplecov", "~> 0.5.4"
+  s.add_development_dependency 'rake', "~> 0.9.2"
 end
