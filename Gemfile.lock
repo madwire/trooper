@@ -51,6 +51,7 @@ PLATFORMS
 
 DEPENDENCIES
   guard-rspec (~> 0.6)
+  jruby-openssl
   pry (~> 0.9)
   rake (~> 0.9.2)
   rb-fsevent
