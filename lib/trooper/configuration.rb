@@ -1,15 +1,21 @@
-#require 'trooper/dsl'
+# encoding: utf-8
+
+require 'trooper/arsenal'
+
+require 'trooper/config/environment'
+require 'trooper/config/strategy'
+require 'trooper/config/action'
 
 module Trooper
   class Configuration
     FILE_NAME = "Troopfile"
 
+    include Trooper::Config::Environment
+    include Trooper::Config::Strategy
+    include Trooper::Config::Action
+
     # def self.init
     # end
-
-    #attr_reader :file_name
-    #attr_accessor :data
-    attr_reader :data
     
     def initialize(options = {})
       @data = {}
@@ -21,25 +27,42 @@ module Trooper
     end 
 
     # def execute(strategy_name)
-    #   strategies[strategy_name].execute self
+    #   Arsenal.strategies[strategy_name].execute self
     # end
+
+    def set(hash)
+      merge_with_data hash
+    end
 
     def loaded?
       @loaded
     end
 
     def [](key)
-      data[key]
+      @data[key]
     end
 
     private
+
+    def merge_with_data(options)
+      @data.merge! options
+    end
 
     def load_troopfile!
       if troopfile?
         eval troopfile.read
         @loaded = true
+
+        load_environment!
       else
         raise Trooper::NoConfigurationFileError, "No Configuration file (#{@file_name}) can be found!"
+      end
+    end
+
+    def load_environment!
+      instance_variable = instance_variable_get("@#{@data[:environment].to_s}_configuration")
+      unless instance_variable.nil?
+        instance_eval(&instance_variable)
       end
     end
 
@@ -49,10 +72,6 @@ module Trooper
       
     def troopfile?
       File.exists?(@file_name)
-    end
-
-    def merge_with_data(options)
-      @data.merge! options
     end
 
   end
