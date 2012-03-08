@@ -24,10 +24,7 @@ module Trooper
       case command.to_sym
       when :init
         #Configuration.init
-        puts 'init'
       else
-        puts @options.inspect
-        puts command
         #config = Configuration.new(options)
         #config.execute action
       end
