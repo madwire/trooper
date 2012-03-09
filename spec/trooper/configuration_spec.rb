@@ -72,6 +72,9 @@ describe "Configuration" do
 
     it "should have set path" do
       @configuration[:path].should  == "/path/to/data/folder"
+
+      @configuration[:application_path].should  == "/path/to/data/folder/application"
+      @configuration[:trooper_path].should  == "/path/to/data/folder/trooper"
     end
 
     it "should have set my_value" do
