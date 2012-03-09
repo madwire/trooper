@@ -23,6 +23,8 @@ module Trooper
       end
 
       def path(arg)
+        set :application_path => "#{arg}/application" 
+        set :trooper_path => "#{arg}/trooper"
         set :path => arg 
       end
 
