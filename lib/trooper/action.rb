@@ -8,11 +8,12 @@ module Trooper
     include Trooper::DSL::Rake
     include Trooper::DSL::Bundler
 
-    attr_reader :name, :description
+    attr_reader :name, :description, :config
     attr_accessor :commands
 
-    def initialize(name, description, &block)
-      @name, @description, @commands = name, description, []
+    def initialize(name, description, config = {}, &block)
+      @name, @description, @config = name, description, config
+      @commands = []
       @loaded = false
       eval_block(&block)
     end
@@ -23,6 +24,10 @@ module Trooper
 
     def run(command)
       commands << command if command != ''
+    end
+
+    def method_missing(method_sym, *arguments, &block)
+      config[method_sym] || super
     end
 
     private

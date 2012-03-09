@@ -6,7 +6,7 @@ require 'trooper/action'
 describe "Action" do
 
   before do
-    @action = Trooper::Action.new :my_action, 'description' do
+    @action = Trooper::Action.new :my_action, 'description', :my_var => 'my_var' do
       run 'touch test.txt'
     end
 
@@ -42,6 +42,11 @@ describe "Action" do
     @action.commands.should == ["my_command1"]
     @action.run 'my_command2'
     @action.commands.should == ["my_command1", "my_command2"]
+  end
+
+  it "should be able to call config variables" do
+    @action.my_var.should == 'my_var'
+    lambda { @action2.my_var.should == 'my_var' }.should raise_error(NoMethodError)
   end
 
 end
