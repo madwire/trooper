@@ -31,7 +31,7 @@ describe 'Bundler' do
       
       it 'should construct an array of commands' do
         @klass.should_receive(:using_bundler?).and_return(true)
-        @klass.should_receive(:path).and_return('path/to')
+        @klass.should_receive(:trooper_path).and_return('path/to/trooper')
         
         @klass.bundle_install
         @klass.commands.should == ["bundle install --path path/to/trooper/bundle --deployment --without development test"]

@@ -8,7 +8,7 @@ module Trooper
       end
 
       def bundle_install
-        run "bundle install --path #{path}/trooper/bundle --deployment --without development test" if using_bundler?
+        run "bundle install --path #{trooper_path}/bundle --deployment --without development test" if using_bundler?
       end
 
       def rake(command)
