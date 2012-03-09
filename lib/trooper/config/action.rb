@@ -5,7 +5,7 @@ module Trooper
     module Action
       
       def action(name, description = "No Description", &block)
-        action = Trooper::Action.new name, description, &block
+        action = Trooper::Action.new name, description, self, &block
         Trooper::Arsenal.actions.add action
       end
 
