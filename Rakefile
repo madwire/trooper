@@ -29,6 +29,9 @@ end
 
 Bundler::GemHelper.install_tasks
 
+
+ENV["COVERAGE"] = "true"
+
 require 'rspec/core'
 require 'rspec/core/rake_task'
 
