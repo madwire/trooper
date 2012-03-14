@@ -7,7 +7,7 @@ require 'trooper/config/strategy'
 require 'trooper/config/action'
 
 module Trooper
-  class Configuration
+  class Configuration < Hash
     FILE_NAME = "Troopfile"
 
     include Trooper::Config::Environment
@@ -18,10 +18,9 @@ module Trooper
     # end
     
     def initialize(options = {})
-      @data = {}
       @loaded = false
       @file_name = options[:file_name] || FILE_NAME
-      @data[:environment] = options[:environment] || :production
+      self[:environment] = options[:environment] || :production
 
       load_troopfile! options
     end 
@@ -31,22 +30,14 @@ module Trooper
     # end
 
     def set(hash)
-      merge_with_data hash
+      self.merge! hash
     end
 
     def loaded?
       @loaded
     end
 
-    def [](key)
-      @data[key]
-    end
-
     private
-
-    def merge_with_data(options)
-      @data.merge! options
-    end
 
     def load_troopfile!(options)
       if troopfile?
@@ -54,14 +45,14 @@ module Trooper
         @loaded = true
         
         load_environment!
-        merge_with_data options
+        set options
       else
         raise Trooper::NoConfigurationFileError, "No Configuration file (#{@file_name}) can be found!"
       end
     end
 
     def load_environment!
-      instance_variable = instance_variable_get("@#{@data[:environment].to_s}_configuration")
+      instance_variable = instance_variable_get("@#{self[:environment].to_s}_configuration")
       unless instance_variable.nil?
         instance_eval(&instance_variable)
       end
