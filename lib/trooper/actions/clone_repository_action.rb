@@ -3,11 +3,11 @@ require 'trooper/action'
 module Trooper
   module Actions
 
-    class InstallGemsAction < Action
+    class CloneRepositoryAction < Action
 
       def initialize(config = {})
-        @name = :install_gems
-        @description = "Installing Gems with Bundler"
+        @name = :clone_repository
+        @description = "Cloning repository as 'application'"
         @config = config
         @commands = []
       end
@@ -21,11 +21,11 @@ module Trooper
       private
 
       def build_commands
-        cd application_path
-        bundle_install
+        cd path
+        run "git clone #{repository} application"
       end
       
     end
-    
+
   end
 end

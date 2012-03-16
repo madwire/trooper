@@ -3,11 +3,11 @@ require 'trooper/action'
 module Trooper
   module Actions
 
-    class InstallGemsAction < Action
+    class UpdateRepositoryAction < Action
 
       def initialize(config = {})
-        @name = :install_gems
-        @description = "Installing Gems with Bundler"
+        @name = :update_repository
+        @description = "Updating repository"
         @config = config
         @commands = []
       end
@@ -22,10 +22,12 @@ module Trooper
 
       def build_commands
         cd application_path
-        bundle_install
+        run "git checkout #{branch} -q"
+        run "git pull origin #{branch} -q"
+        run "git gc --aggressive"
       end
       
     end
-    
+
   end
 end

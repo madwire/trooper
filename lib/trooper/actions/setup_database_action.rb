@@ -3,11 +3,11 @@ require 'trooper/action'
 module Trooper
   module Actions
 
-    class InstallGemsAction < Action
+    class SetupDatabaseAction < Action
 
       def initialize(config = {})
-        @name = :install_gems
-        @description = "Installing Gems with Bundler"
+        @name = :setup_database
+        @description = "Setting up database"
         @config = config
         @commands = []
       end
@@ -22,10 +22,10 @@ module Trooper
 
       def build_commands
         cd application_path
-        bundle_install
+        rake "db:setup RAILS_ENV=#{environment}"
       end
       
     end
-    
+
   end
 end

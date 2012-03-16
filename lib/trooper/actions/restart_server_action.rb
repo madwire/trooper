@@ -3,11 +3,11 @@ require 'trooper/action'
 module Trooper
   module Actions
 
-    class InstallGemsAction < Action
+    class RestartServerAction < Action
 
       def initialize(config = {})
-        @name = :install_gems
-        @description = "Installing Gems with Bundler"
+        @name = :restart_server
+        @description = "Restart server"
         @config = config
         @commands = []
       end
@@ -22,10 +22,12 @@ module Trooper
 
       def build_commands
         cd application_path
-        bundle_install
+        create_folder 'tmp'
+        run 'touch tmp/restart.txt'
+        run 'echo "Server restarted!"'
       end
       
     end
-    
+
   end
 end
