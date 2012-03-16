@@ -6,7 +6,7 @@ require 'trooper/action'
 describe "Action" do
 
   before do
-    @action = Trooper::Action.new :my_action, 'description', :my_var => 'my_var' do
+    @action = Trooper::Action.new :my_action, 'description' do
       run 'touch test.txt'
     end
 
@@ -27,11 +27,17 @@ describe "Action" do
     @action.description.should == 'description'
   end
 
+  it "should be able to call the action after init" do
+    @action.call(:my_var => 'my_var').should == ['touch test.txt']
+
+    @action2.commands.should == []
+  end
+
   it "should be able to pass a block" do
-    @action.ok?.should == true
+    @action.call(:my_var => 'my_var')
     @action.commands.should == ['touch test.txt']
 
-    @action2.ok?.should == true
+    @action2.call(:my_var => 'my_var')
     @action2.commands.should == ['touch test.txt']
   end
 
@@ -45,6 +51,7 @@ describe "Action" do
   end
 
   it "should be able to call config variables" do
+    @action.call(:my_var => 'my_var')
     @action.my_var.should == 'my_var'
     lambda { @action2.my_var.should == 'my_var' }.should raise_error(NoMethodError)
   end

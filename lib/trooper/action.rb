@@ -8,18 +8,22 @@ module Trooper
     include Trooper::DSL::Rake
     include Trooper::DSL::Bundler
 
-    attr_reader :name, :description, :config
+    attr_reader :name, :description, :config, :block
     attr_accessor :commands
 
-    def initialize(name, description, config = {}, &block)
-      @name, @description, @config = name, description, config
-      @commands = []
-      @loaded = false
+    def initialize(name, description, &block)
+      @name, @description, @config = name, description, {}
+      @commands, @block = [], block
+    end
+
+    def call(configuration)
+      @config = configuration
       eval_block(&block)
+      commands
     end
 
     def ok?
-      @loaded
+      true
     end
 
     def run(command)
@@ -40,7 +44,6 @@ module Trooper
           instance_eval &block
         end
       end
-       @loaded = true
     end
 
   end
