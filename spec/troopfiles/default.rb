@@ -10,7 +10,11 @@ env :production do
   set :my_value => 'something_else'
 end
 
-action :restart do
+action :restart_server do
+  run 'touch tmp/restert.txt'
+end
+
+action :other do
   run 'touch tmp/restert.txt'
 end
 
