@@ -37,6 +37,12 @@ describe "Configuration" do
       @configuration[:my_new_option].should == 'new_option2'
     end
 
+    it "should have loaded some default actions" do
+      Trooper::Arsenal.reset!
+      @configuration.load_default_actions!
+      Trooper::Arsenal.actions.count.should == 7
+    end
+
   end
 
   describe "with diffent configuration files" do
@@ -101,8 +107,8 @@ describe "Configuration" do
       Trooper::Arsenal.strategies.count.should == 3
     end
 
-    it "should have 1 action in its arsenal" do
-      Trooper::Arsenal.actions.count.should == 1
+    it "should have 7 defaults and 1 custom action in its arsenal" do
+      Trooper::Arsenal.actions.count.should == 8
     end
 
   end

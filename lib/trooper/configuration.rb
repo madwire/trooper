@@ -22,6 +22,7 @@ module Trooper
       @file_name = options[:file_name] || FILE_NAME
       self[:environment] = options[:environment] || :production
 
+      load_default_actions!
       load_troopfile! options
     end 
 
