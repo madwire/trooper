@@ -8,6 +8,10 @@ set :my_value => 'something'
 env :production do
   hosts 'production1.example.com', 'production2.example.com'
   set :my_value => 'something_else'
+
+  action :restart do
+    run 'touch tmp/restert.txt'
+  end
 end
 
 action :restart do
