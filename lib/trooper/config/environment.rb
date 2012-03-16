@@ -2,8 +2,11 @@ module Trooper
   module Config
     module Environment
 
-      def set(value)
-        nil
+      def load_environment!
+        instance_variable = instance_variable_get("@#{self[:environment].to_s}_configuration")
+        unless instance_variable.nil?
+          instance_eval(&instance_variable)
+        end
       end
       
       def env(environment_name, &block)

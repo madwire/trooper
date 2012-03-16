@@ -52,13 +52,6 @@ module Trooper
       end
     end
 
-    def load_environment!
-      instance_variable = instance_variable_get("@#{self[:environment].to_s}_configuration")
-      unless instance_variable.nil?
-        instance_eval(&instance_variable)
-      end
-    end
-
     def troopfile
       File.open(@file_name)
     end
