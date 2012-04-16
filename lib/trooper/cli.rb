@@ -46,6 +46,10 @@ module Trooper
           @options[:environment] = e.to_sym
         end
 
+        op.on "-f", "--file TROOPFILE", "Load a different Troopfile" do |f|
+          @options[:file_name] = f || 'Troopfile' 
+        end
+
         op.on_tail "-h", "--help", "Help" do 
           puts @option_parser
           exit
