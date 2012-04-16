@@ -14,8 +14,17 @@ module Trooper
     include Trooper::Config::Strategy
     include Trooper::Config::Action
 
-    # def self.init
-    # end
+    def self.init
+      gem_dir = File.dirname(__FILE__)
+
+      if RUBY_VERSION == /1.8/
+        require 'ftools'
+        File.copy("#{gem_dir}/template/troopfile.rb", "./Troopfile")
+      else
+        require 'fileutils'
+        ::FileUtils.copy("#{gem_dir}/template/troopfile.rb", "./Troopfile")
+      end
+    end
     
     def initialize(options = {})
       @loaded = false

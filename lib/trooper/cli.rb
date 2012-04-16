@@ -1,4 +1,5 @@
 require 'optparse'
+require 'trooper/configuration'
 
 module Trooper
   class CLI
@@ -23,16 +24,11 @@ module Trooper
     def execute
       case command.to_sym
       when :init
-        #Configuration.init
+        Configuration.init
       else
         #config = Configuration.new(options)
         #config.execute action
       end
-
-      # begin
-      # rescue Exception => e
-      #   Trooper.logger.error e
-      # end
     end
 
     private
