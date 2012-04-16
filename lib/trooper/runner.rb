@@ -12,6 +12,10 @@ module Trooper
       @user = user
       @connection = Net::SSH.start(host, user, options)
     end
+
+    def to_s
+      "#{user}@#{host}"
+    end
     
     def execute(command, options = {})
       commands = parse command
