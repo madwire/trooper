@@ -14,6 +14,7 @@ module Trooper
     def execute(config = {})
       @config = config
       Trooper.logger.debug "Configuration\n#{config}"
+      Trooper.logger.info description
       successful = nil
 
       runners.each do |runner|
@@ -52,7 +53,7 @@ module Trooper
     end
 
     def actions(*action_names)
-      [*action_names].each do |name|
+      [*action_names].each do |name| 
         @run_list << [:action, name]
       end
     end
