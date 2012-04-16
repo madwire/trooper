@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/madwire/trooper"
   s.summary     = "Deploy like a 'Trooper'"
   s.description = "Simple but powerful deployment"
+  s.licenses    = ["MIT"]
+  s.executables = ["trooper"]
 
   s.files = Dir["{bin,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
