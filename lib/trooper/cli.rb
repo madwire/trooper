@@ -43,7 +43,8 @@ module Trooper
         op.banner = 'Usage: trooper <command> [options]'      
         op.separator ''
 
-        op.on "-d", "--debug", "Debuy" do 
+        op.on "-d", "--debug", "Debuy" do
+          $trooper_log_level = ::Logger::DEBUG
           @options[:debug] = true
         end
 

@@ -14,7 +14,7 @@ module Trooper
     def execute(config = {})
       @config = config
       Trooper.logger.debug "Configuration\n#{config}"
-      Trooper.logger.info description
+      Trooper.logger.strategy description
       successful = nil
 
       runners.each do |runner|

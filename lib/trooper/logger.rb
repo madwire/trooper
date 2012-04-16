@@ -7,9 +7,10 @@ module Trooper
   class Logger < ::Logger
     ACTION = 6
     SUCCESS = 7
+    STRATEGY = 8
 
-    # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN < ACTION < SUCCESS
-    LABELS = %w(DEBUG INFO WARN ERROR FATAL ANY ACTION SUCCESS)
+    # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN < ACTION < SUCCESS < STRATEGY
+    LABELS = %w(DEBUG INFO WARN ERROR FATAL ANY ACTION SUCCESS STRATEGY)
 
     def action(progname = nil, &block)
       add(ACTION, nil, progname, &block)
@@ -17,6 +18,10 @@ module Trooper
 
     def success(progname = nil, &block)
       add(SUCCESS, nil, progname, &block)
+    end
+
+    def strategy(progname = nil, &block)
+      add(STRATEGY, nil, progname, &block)
     end
 
     private
@@ -52,6 +57,8 @@ module Trooper
         colour("#{progname} => [#{severity}] #{message}\n", :magenta)
       when "SUCCESS"
         colour("#{progname} => [#{severity}] #{message}\n", :green)
+      when "STRATEGY"
+        colour("#{progname} => [#{severity}] #{message}\n", :cyan)
       when "ERROR", "FATAL"
         colour("#{progname} => [#{severity}] #{message}\n", :red)
       else
@@ -71,11 +78,10 @@ module Trooper
     
   end
 
-
   def self.logger
     @logger ||= begin
       logger = Logger.new($stdout)
-      logger.level = ::Logger::DEBUG
+      logger.level = $trooper_log_level || ::Logger::INFO
       logger.progname = 'Trooper'
       logger.formatter = LogFormat.new
       logger
