@@ -21,6 +21,7 @@ module Trooper
       eval_block(&block)
       commands
     end
+    alias :execute :call
 
     def ok?
       true
