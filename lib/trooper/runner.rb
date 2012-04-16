@@ -19,8 +19,9 @@ module Trooper
     
     def execute(command, options = {})
       commands = parse command
+      Trooper.logger.debug commands
       connection.exec! commands do |ch, stream, data|
-        raise Trooper::StdError, "#{user}@#{host}: #{commands} → #{data}" if stream == :stderr
+        raise Trooper::StdError, "#{data}\n[ERROR INFO] #{commands}" if stream == :stderr
         ch.wait
         return [commands, stream, data]
       end
