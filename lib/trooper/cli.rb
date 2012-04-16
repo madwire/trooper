@@ -18,11 +18,16 @@ module Trooper
       @options = { :environment => :production }
 
       @command = option_parser.parse!(@argv)[0]
-      raise CliArgumentError, "You didnt pass an action" if @command == nil
+      
+      if @command 
+        @command = @command.to_sym
+      else
+        raise CliArgumentError, "You didnt pass an action"
+      end
     end
 
     def execute
-      case command.to_sym
+      case command
       when :init
         Configuration.init
       else

@@ -14,7 +14,7 @@ describe "CLI" do
     end
    
     it "should determine the strategy to run" do
-      @cli.command.should == 'deploy'
+      @cli.command.should == :deploy
     end
 
     it "should match the passed options" do
@@ -32,7 +32,7 @@ describe "CLI" do
     end
    
     it "should determine the strategy to run" do
-      @cli.command.should == 'deploy'
+      @cli.command.should == :deploy
     end
 
     it "should have a default environment" do
