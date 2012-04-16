@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Deploy like a 'Trooper'"
   s.description = "Simple but powerful deployment"
 
-  s.files = Dir["{bin,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{bin,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
   s.add_runtime_dependency "net-ssh", "~> 2.3.0"
 
