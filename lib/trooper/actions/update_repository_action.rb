@@ -26,6 +26,10 @@ module Trooper
         run "git pull origin #{branch} -q"
         run "git gc --aggressive"
       end
+
+      def branch
+        config[:branch] || 'master'
+      end
       
     end
 

@@ -18,4 +18,8 @@ describe "UpdateRepositoryAction" do
     @action.call(@config).should == ["cd /path/to/application", "git checkout master -q", "git pull origin master -q", "git gc --aggressive"]
   end
 
+  it "should work without a branch defined" do
+    @action.call({ :application_path => '/path/to/application'}).should == ["cd /path/to/application", "git checkout master -q", "git pull origin master -q", "git gc --aggressive"]
+  end
+
 end
