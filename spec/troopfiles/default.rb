@@ -15,7 +15,7 @@ action :restart_server do
 end
 
 action :other do
-  run 'touch tmp/restert.txt'
+  run 'touch tmp/other.txt'
 end
 
 strategy :update, 'Update the code base on the server' do
