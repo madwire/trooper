@@ -77,7 +77,7 @@ module Trooper
       action = Arsenal.actions[name]
 
       if action
-        commands = action.execute config
+        commands = action.call config
         Trooper.logger.action action.description
         runner_execute!(runner, commands)
       end
