@@ -29,3 +29,5 @@ end
 def channel
   @channel
 end
+
+Trooper.logger.level = 100 #set level to something high
