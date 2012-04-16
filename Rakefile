@@ -5,26 +5,26 @@ rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-# begin
-#   require 'rdoc/task'
-#   require 'sdoc'
-# rescue LoadError
-#   require 'rdoc/rdoc'
-#   require 'rake/rdoctask'
-#   RDoc::Task = Rake::RDocTask
-# end
+begin
+  require 'rdoc/task'
+  require 'sdoc'
+rescue LoadError
+  require 'rdoc/rdoc'
+  require 'rake/rdoctask'
+  RDoc::Task = Rake::RDocTask
+end
 
-# RDoc::Task.new(:rdoc) do |rdoc|
-#   rdoc.rdoc_dir = 'rdoc'
-#   rdoc.title    = 'Trooper'
-#   rdoc.options << '--line-numbers'
-#   rdoc.options << '-f' << 'sdoc'
-#   rdoc.options << '-c' << 'utf-8'
-#   rdoc.options << '-t' << 'rails'
-#   #rdoc.options << '-g' # SDoc flag, link methods to GitHub
-#   rdoc.rdoc_files.include('README.rdoc')
-#   rdoc.rdoc_files.include('lib/**/*.rb')
-# end
+RDoc::Task.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'Trooper'
+  rdoc.options << '--line-numbers'
+  rdoc.options << '-f' << 'sdoc'
+  rdoc.options << '-c' << 'utf-8'
+  rdoc.options << '-t' << 'rails'
+  #rdoc.options << '-g' # SDoc flag, link methods to GitHub
+  rdoc.rdoc_files.include('README.md')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
 
 
 Bundler::GemHelper.install_tasks
