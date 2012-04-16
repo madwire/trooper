@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Trooper::Version::STRING
   s.authors     = ["Richard Adams"]
   s.email       = ["richard@madwire.co.uk"]
-  s.homepage    = "http://www.madwire.co.uk"
+  s.homepage    = "https://github.com/madwire/trooper"
   s.summary     = "Deploy like a 'Trooper'"
   s.description = "Simple but powerful deployment"
 

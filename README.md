@@ -4,6 +4,11 @@ Trooper is designed to give you the flexibility to deploy your code to any serve
 You design your deployment strategy to best fit your application and its needs. 
 Trooper comes with some built in actions that you can use in your own strategies or come up with entirely new ones.
 
+#### Please give me a try on your small project for now
+
+We have been using earlier versions of trooper were I work for the best part of 2 years, 
+but I re-wrote it for public release and so has lost a lot of its maturity.
+
 ## Installation
 
 1. Super easy! `gem install trooper` or add it to your Gemfile `gem 'trooper'`
