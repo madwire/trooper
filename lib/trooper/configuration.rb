@@ -30,9 +30,9 @@ module Trooper
       self.map {|k,v| "#{k}: #{v}" }.join("\n")
     end
 
-    # def execute(strategy_name)
-    #   Arsenal.strategies[strategy_name].execute self
-    # end
+    def execute(strategy_name)
+      Arsenal.strategies[strategy_name].execute self
+    end
 
     def set(hash)
       self.merge! hash

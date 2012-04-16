@@ -95,8 +95,8 @@ describe "Strategy" do
       Trooper::Arsenal.actions.add @action2
 
       #setup stratergy
-      configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user'})
-      @strategy = Trooper::Strategy.new :my_strategy, 'description', configuration
+      @configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user'})
+      @strategy = Trooper::Strategy.new :my_strategy, 'description', @configuration
       @strategy.actions(:my_action)
       @strategy.actions(:my_action2)
     end
@@ -108,7 +108,7 @@ describe "Strategy" do
 
     it "should execute successfully" do
       ##.should == ['touch test.txt']
-      @strategy.execute.should == true
+      @strategy.execute(@configuration).should == true
     end
 
   end
@@ -128,8 +128,8 @@ describe "Strategy" do
       Trooper::Arsenal.actions.add @action
 
       #setup stratergy
-      configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user'})
-      @strategy = Trooper::Strategy.new :my_strategy, 'description', configuration
+      @configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user'})
+      @strategy = Trooper::Strategy.new :my_strategy, 'description', @configuration
       @strategy.actions(:my_action2)
     end
 
@@ -141,7 +141,7 @@ describe "Strategy" do
     
     it "should execute successfully" do
       ##.should == ['touch test.txt']
-      @strategy.execute.should == false
+      @strategy.execute(@configuration).should == false
     end
 
   end

@@ -11,8 +11,8 @@ module Trooper
       eval_block(&block)
     end
 
-    def execute(override_config = {})
-      @config = config.merge!(override_config)
+    def execute(config = {})
+      @config = config
       Trooper.logger.debug "Configuration\n#{config}"
       successful = nil
 
