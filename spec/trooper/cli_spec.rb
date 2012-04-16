@@ -10,7 +10,7 @@ describe "CLI" do
     before do
       # trooper deploy -e production -d
       @command = 'deploy -e production -d'
-      @cli = Trooper::CLI.start(@command.split(' '))
+      @cli = Trooper::CLI.new(@command.split(' '))
     end
    
     it "should determine the strategy to run" do
@@ -28,7 +28,7 @@ describe "CLI" do
     before do
       # trooper deploy
       @command = 'deploy'
-      @cli = Trooper::CLI.start(@command.split(' '))
+      @cli = Trooper::CLI.new(@command.split(' '))
     end
    
     it "should determine the strategy to run" do

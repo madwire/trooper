@@ -26,8 +26,8 @@ module Trooper
       when :init
         Configuration.init
       else
-        #config = Configuration.new(options)
-        #config.execute action
+        config = Configuration.new(options)
+        config.execute action
       end
     end
 
