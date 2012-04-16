@@ -32,7 +32,7 @@ module Trooper
         Configuration.init
       else
         config = Configuration.new(options)
-        config.execute action
+        config.execute command
       end
     end
 
