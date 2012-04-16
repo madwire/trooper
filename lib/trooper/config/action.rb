@@ -25,6 +25,7 @@ module Trooper
 
       def load_default_actions!
         DEFAULT_ACTIONS.each do |klass|
+          Trooper.logger.debug "loaded #{klass.to_s}"
           Trooper::Arsenal.actions.add klass.new
         end
       end
