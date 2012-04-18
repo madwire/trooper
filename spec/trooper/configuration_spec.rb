@@ -3,6 +3,8 @@
 require 'spec_helper'
 require 'trooper/configuration'
 
+require 'trooper/config/action'
+
 describe "Configuration" do
 
   describe "with the a configuration file" do
@@ -40,7 +42,7 @@ describe "Configuration" do
     it "should have loaded some default actions" do
       Trooper::Arsenal.reset!
       @configuration.load_default_actions!
-      Trooper::Arsenal.actions.count.should == 7
+      Trooper::Arsenal.actions.count.should == Trooper::Config::Action::DEFAULT_ACTIONS.count
     end
 
   end
@@ -107,8 +109,8 @@ describe "Configuration" do
       Trooper::Arsenal.strategies.count.should == 3
     end
 
-    it "should have 7 defaults and 1 custom action in its arsenal" do
-      Trooper::Arsenal.actions.count.should == 8
+    it "should have 8 defaults and 1 custom action in its arsenal" do
+      Trooper::Arsenal.actions.count.should == (Trooper::Config::Action::DEFAULT_ACTIONS.count + 1)
     end
 
   end
