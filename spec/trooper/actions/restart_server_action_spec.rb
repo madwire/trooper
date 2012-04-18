@@ -15,7 +15,7 @@ describe "RestartServerAction" do
   end
 
   it "should return an array of commands" do
-    @action.call(@config).should == ["cd /path/to/application", "mkdir -p tmp", "touch tmp/restart.txt", "echo \"Server restarted!\""]
+    @action.call(@config).should == ["cd /path/to/application", "mkdir -p tmp", "touch tmp/restart.txt", "echo -e \"Server restarted!\""]
   end
 
 end
