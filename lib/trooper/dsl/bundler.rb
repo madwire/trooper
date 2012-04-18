@@ -20,6 +20,10 @@ module Trooper
       def using_bundler?
         File.exists? "Gemfile"
       end
+
+      def ruby_bin_path
+        config[:ruby_bin_path] || ""
+      end
       
     end
   end
