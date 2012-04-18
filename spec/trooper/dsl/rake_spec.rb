@@ -28,6 +28,8 @@ describe 'Rake' do
   describe 'when calling rake' do
     
     it 'should construct an array of commands' do
+      @klass.should_receive(:ruby_bin_path).and_return('')
+      
       @klass.rake 'db:seed'
       @klass.commands.should == ["rake db:seed"]
     end
