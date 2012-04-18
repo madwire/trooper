@@ -6,16 +6,17 @@ require 'trooper/actions/migrate_database_action'
 require 'trooper/actions/restart_server_action'
 require 'trooper/actions/rollback_migrate_action'
 require 'trooper/actions/setup_database_action'
+require 'trooper/actions/setup_trooper_action'
 require 'trooper/actions/update_repository_action'
 
 module Trooper
   module Config
     module Action
 
-      DEFAULT_ACTIONS = [Actions::CloneRepositoryAction, Actions::InstallGemsAction, 
-                          Actions::MigrateDatabaseAction, Actions::RestartServerAction, 
-                          Actions::RollbackMigrateAction, Actions::SetupDatabaseAction, 
-                          Actions::UpdateRepositoryAction]
+      DEFAULT_ACTIONS = [Actions::SetupTrooperAction, Actions::CloneRepositoryAction, 
+                          Actions::InstallGemsAction, Actions::MigrateDatabaseAction, 
+                          Actions::RestartServerAction, Actions::RollbackMigrateAction, 
+                          Actions::SetupDatabaseAction, Actions::UpdateRepositoryAction]
       
       def action(name, description = "No Description", &block)
         action = Trooper::Action.new name, description, &block
