@@ -24,7 +24,7 @@ module Trooper
         cd application_path
         create_folder 'tmp'
         run 'touch tmp/restart.txt'
-        run 'echo "Server restarted!"'
+        run 'echo -e "Server restarted!"'
       end
       
     end
