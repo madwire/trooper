@@ -1,7 +1,9 @@
 user 'my_user'
 hosts 'stage.example.com'
 repository 'git@git.bar.co.uk:whatever.git'
-path "/path/to/data/folder"
+path "/fullpath/to/folder"
+
+#ruby_bin_path "/fullpath/to/ruby/bin/folder"
 
 set :my_value => 'something'
 

@@ -3,12 +3,12 @@ module Trooper
     module Bundler
       
       def bundle_exec(command)
-        use_bundle = using_bundler? ? "bundle exec " : ""
+        use_bundle = using_bundler? ? "#{ruby_bin_path}bundle exec " : ""
         run use_bundle + command
       end
 
       def bundle_install
-        run "bundle install --path #{trooper_path}/bundle --deployment --without development test" if using_bundler?
+        run "#{ruby_bin_path}bundle install --path #{trooper_path}/bundle --deployment --without development test" if using_bundler?
       end
 
       def rake(command)

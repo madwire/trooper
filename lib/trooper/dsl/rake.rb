@@ -3,7 +3,7 @@ module Trooper
     module Rake
       
       def rake(command)
-        run "rake #{command}"
+        run "#{ruby_bin_path}rake #{command}"
       end
       
     end

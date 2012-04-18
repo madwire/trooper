@@ -31,6 +31,10 @@ module Trooper
         set :path => arg 
       end
 
+      def ruby_bin_path(arg)
+        set :ruby_bin_path => arg.gsub(/[^\/]$/, '\1/') # /usr/local/bin/
+      end
+
     end
   end
 end
