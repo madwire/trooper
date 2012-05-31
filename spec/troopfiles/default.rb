@@ -18,12 +18,18 @@ action :other do
   run 'touch tmp/other.txt'
 end
 
+strategy :setup, 'Setting up Application on the Server' do
+  actions :setup_trooper, :clone_repository, :setup_database
+end
+
 strategy :update, 'Update the code base on the server' do
+  prerequisites :setup
   actions :update_repository, :install_gems
   call :restart
 end
 
 strategy :deploy, 'Full deployment to the server' do
+  prerequisites :setup
   call :update
   actions :migrate_database
   call :restart
