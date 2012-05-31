@@ -83,6 +83,7 @@ describe "Configuration" do
 
       @configuration[:application_path].should  == "/path/to/data/folder/application"
       @configuration[:trooper_path].should  == "/path/to/data/folder/trooper"
+      @configuration[:prerequisite_list].should  == "/path/to/data/folder/trooper/prerequisite_list"
     end
 
     it "should have set my_value" do
@@ -106,7 +107,7 @@ describe "Configuration" do
     end
 
     it "should have 3 strategies in its arsenal" do
-      Trooper::Arsenal.strategies.count.should == 3
+      Trooper::Arsenal.strategies.count.should == 4
     end
 
     it "should have 8 defaults and 1 custom action in its arsenal" do

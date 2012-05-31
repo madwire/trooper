@@ -28,6 +28,7 @@ module Trooper
       def path(arg)
         set :application_path => "#{arg}/application" 
         set :trooper_path => "#{arg}/trooper"
+        set :prerequisite_list => "#{arg}/trooper/prerequisite_list"
         set :path => arg 
       end
 
