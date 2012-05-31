@@ -21,8 +21,9 @@ module Trooper
         begin
           Trooper.logger.info "\e[4mRunning on #{runner}\n"
 
-          run_list.each do |item, name|
-            self.send("#{item}_execute", runner, name)
+          run_list.each do |strategy, type, name|
+            commands = build_commands strategy, type, name
+            runner_execute! runner, commands if commands
           end
 
           successful = true
@@ -44,17 +45,50 @@ module Trooper
       true
     end
 
-    def call(strategy_name)
-      if Arsenal.strategies[strategy_name]
-        Arsenal.strategies[strategy_name].run_list.each do |action|
-          @run_list << action
+    def call(*strategy_names)
+      [*strategy_names].each do |strategy_name|
+        if Arsenal.strategies[strategy_name]
+          Arsenal.strategies[strategy_name].run_list.each do |action|
+            # strategy_name, type, name
+            @run_list << action
+          end
         end
-      end  
+      end
+    end
+
+    def prerequisites(*strategy_names)
+      [*strategy_names].each do |strategy_name|
+        if Arsenal.strategies[strategy_name]
+          Arsenal.strategies[strategy_name].run_list.each do |action|
+            # strategy_name, type, name
+            @run_list << [action[0], :prerequisite, action[2]]
+          end
+        end  
+      end
     end
 
     def actions(*action_names)
       [*action_names].each do |name| 
-        @run_list << [:action, name]
+        # strategy_name, type, name
+        @run_list << [self.name, :action, name]
+      end
+    end
+
+    def build_commands(strategy_name, type, action_name)
+      action = Arsenal.actions[action_name]
+
+      if action
+        commands = action.call config
+
+        case type
+        when :prerequisite
+          commands = "touch #{prerequisite_list}; if grep -c #{name} #{prerequisite_list}; then #{commands.join(' && ')}; else echo 'Already Done!'; fi"    
+        end
+
+        Trooper.logger.action "#{type}: #{action.description}"
+        commands
+      else
+        raise MissingActionError, "Cant find action: #{action_name}"
       end
     end
 
@@ -71,16 +105,6 @@ module Trooper
         else
           instance_eval &block
         end
-      end
-    end
-
-    def action_execute(runner, name)
-      action = Arsenal.actions[name]
-
-      if action
-        commands = action.call config
-        Trooper.logger.action action.description
-        runner_execute!(runner, commands)
       end
     end
 

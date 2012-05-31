@@ -11,6 +11,10 @@ module Trooper
   class MissingStrategyError < TrooperError
   end
 
+  # When a acton is not defined
+  class MissingActionError < TrooperError
+  end
+
   # When a CLI argument is missing or badly formed
   class CliArgumentError < TrooperError
   end
