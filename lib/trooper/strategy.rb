@@ -7,7 +7,7 @@ module Trooper
     
     def initialize(name, description, config = {}, &block)
       @name, @description, @config = name, description, config
-      @run_list = []
+      @run_list = [[@name, :action, :setup_trooper]]
       eval_block(&block)
     end
 
@@ -82,10 +82,13 @@ module Trooper
 
         case type
         when :prerequisite
-          commands = "touch #{prerequisite_list}; if grep -c #{name} #{prerequisite_list}; then #{commands.join(' && ')}; else echo 'Already Done!'; fi"    
+          commands << "echo '#{action.name}' > #{prerequisite_list}"
+          commands = "touch #{prerequisite_list}; if grep -cv #{action_name} #{prerequisite_list}; then #{commands.join(' && ')}; else echo 'Already Done'; fi"    
+          Trooper.logger.action "Prerequisite: #{action.description}"
+        else
+          Trooper.logger.action action.description
         end
-
-        Trooper.logger.action "#{type}: #{action.description}"
+        
         commands
       else
         raise MissingActionError, "Cant find action: #{action_name}"

@@ -14,6 +14,8 @@ module Trooper
 
       def call(configuration)
         @config = configuration
+        @commands = []
+
         build_commands
         commands
       end
@@ -22,7 +24,8 @@ module Trooper
 
       def build_commands
         create_folders path, trooper_path
-        run 'echo -e "Trooper Setup on Server!"'
+        run "echo '#{@name}' > #{prerequisite_list}"
+        run 'echo -e "Trooper Setup on Server"'
       end
       
     end
