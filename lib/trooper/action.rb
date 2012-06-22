@@ -11,27 +11,61 @@ module Trooper
     attr_reader :name, :description, :config, :block
     attr_accessor :commands
 
-    # expects a name, description and a block
+    # Public: Define a new action.
+    #
+    # name - The name of the action.
+    # description - A description of action to be used in the cli output.
+    # block - A block containing the tasks to run in this action.
+    #
+    # Examples
+    #
     #   Action.new(:my_action, 'Does great things') { run 'touch file' }
+    #
+    # Returns a new action object.
     def initialize(name, description, &block)
       @name, @description, @config = name, description, {}
       @commands, @block = [], block
     end
 
-    # eval's the block passed on initialize and returns the command array
+    # Public: Eval's the block passed on initialize.
+    #
+    # configuration - The configuration object to be used for block eval.
+    #
+    # Examples
+    #
+    #   @action.call(config_object) # => ['touch file']
+    #
+    # Returns an array of commands(strings).
     def call(configuration)
       @config = configuration
       eval_block(&block)
       commands
     end
     alias :execute :call
-
-    # validates the action 
+ 
+    # Public: Validates the action object. (NOT WORKING)
+    #
+    # Examples
+    #
+    #   @action.ok? # => true
+    #
+    # Returns true.
     def ok?
       true
     end
 
     # run is the base run command used by the dsl
+
+    # Public: Appends command(string) to commands(array).
+    #
+    # command - A String to be added to the commands array.
+    #
+    # Examples
+    #
+    #   @action.run 'touch file' # => 'touch file'
+    #   @action.run '' # => nil
+    #
+    # Returns the command or nil.
     def run(command)
       commands << command if command != ''
     end
