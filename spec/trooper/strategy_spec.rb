@@ -64,7 +64,7 @@ describe "Strategy" do
 
     it "should be able to add prerequisites to the run list" do
       @strategy.prerequisites(:another_strategy, :yet_another_strategy)
-      @strategy.run_list.should == [[:another_strategy, :prerequisite, :another_strategy_action], [:yet_another_strategy, :prerequisite, :yet_another_strategy_action]]
+      @strategy.run_list.should == [[:my_strategy, :action, :prepare_prerequisite], [:another_strategy, :prerequisite, :another_strategy_action], [:yet_another_strategy, :prerequisite, :yet_another_strategy_action]]
     end
   end
 
@@ -98,9 +98,9 @@ describe "Strategy" do
       mock_net_ssh!
       @connection.stub(:exec!).and_yield(@channel, :stdout, 'Server Name 1')
       #setup stratergy
-      @configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user', :prerequisite_list => 'prerequisite_list'})
+      @configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :hosts => ['my.servey.com'], :user => 'my_admin_user', :trooper_path => '/path/trooper', :prerequisite_list => 'prerequisite_list'})
 
-      Trooper::Arsenal.reset!
+      #Trooper::Arsenal.reset!
       #actions
       @successful_action = Trooper::Action.new :successful_action, 'description' do
         run 'touch test.txt'
@@ -141,7 +141,7 @@ describe "Strategy" do
     it "should build the commands" do
       @strategy.build_commands(:my_strategy, :action, :successful_action).should == ["touch test.txt"]
       @strategy.build_commands(:another_strategy, :action, :successful_action2).should == ["cd ~", "touch test.txt"]
-      @strategy.build_commands(:yet_another_strategy, :prerequisite, :successful_action2).should == "touch prerequisite_list; if grep -c my_strategy prerequisite_list; then cd ~ && touch test.txt && cd ~ && touch test.txt; else echo 'Already Done!'; fi"
+      @strategy.build_commands(:yet_another_strategy, :prerequisite, :successful_action2).should == "touch prerequisite_list; if grep -vz successful_action2 prerequisite_list; then cd ~ && touch test.txt && cd ~ && touch test.txt && echo 'successful_action2' >> prerequisite_list && echo 'description'; else echo 'Already Done'; fi"
     end
 
   end

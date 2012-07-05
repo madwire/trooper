@@ -7,16 +7,19 @@ module Trooper
     
     def initialize(name, description, config = {}, &block)
       @name, @description, @config = name, description, config
-      @run_list = [[@name, :action, :setup_trooper]]
-      eval_block(&block)
+      @run_list = []
+      @block = block if block_given?
     end
 
     def execute(config = {})
       @config = config
+      
+      eval_block
+
       Trooper.logger.debug "Configuration\n#{config}"
       Trooper.logger.strategy description
       successful = nil
-
+      
       runners.each do |runner|
         begin
           Trooper.logger.info "\e[4mRunning on #{runner}\n"
@@ -30,7 +33,7 @@ module Trooper
           Trooper.logger.success "\e[4mAll Actions Completed\n"
         rescue Exception => e
           Trooper.logger.error "#{e.class.to_s} : #{e.message}\n\n#{e.backtrace.join("\n")}"
-          
+
           successful = false
           break #stop commands running on other servers
         ensure
@@ -41,6 +44,11 @@ module Trooper
       successful
     end
 
+    def build_run_list
+      eval_block
+      run_list
+    end
+
     def ok?
       true
     end
@@ -48,7 +56,7 @@ module Trooper
     def call(*strategy_names)
       [*strategy_names].each do |strategy_name|
         if Arsenal.strategies[strategy_name]
-          Arsenal.strategies[strategy_name].run_list.each do |action|
+          Arsenal.strategies[strategy_name].build_run_list.each do |action|
             # strategy_name, type, name
             @run_list << action
           end
@@ -57,9 +65,12 @@ module Trooper
     end
 
     def prerequisites(*strategy_names)
+      unless @run_list.detect { |a| a[2] == :prepare_prerequisite }
+        @run_list << [@name, :action, :prepare_prerequisite] 
+      end
       [*strategy_names].each do |strategy_name|
         if Arsenal.strategies[strategy_name]
-          Arsenal.strategies[strategy_name].run_list.each do |action|
+          Arsenal.strategies[strategy_name].build_run_list.each do |action|
             # strategy_name, type, name
             @run_list << [action[0], :prerequisite, action[2]]
           end
@@ -82,8 +93,9 @@ module Trooper
 
         case type
         when :prerequisite
-          commands << "echo '#{action.name}' > #{prerequisite_list}"
-          commands = "touch #{prerequisite_list}; if grep -cv #{action_name} #{prerequisite_list}; then #{commands.join(' && ')}; else echo 'Already Done'; fi"    
+          commands << "echo '#{action.name}' >> #{prerequisite_list}"
+          commands << "echo '#{action.description}'"
+          commands = "touch #{prerequisite_list}; if grep -vz #{action_name} #{prerequisite_list}; then #{commands.join(' && ')}; else echo 'Already Done'; fi"    
           Trooper.logger.action "Prerequisite: #{action.description}"
         else
           Trooper.logger.action action.description
@@ -101,13 +113,9 @@ module Trooper
 
     private
 
-    def eval_block(&block)
-      if block_given?
-        if block.arity == 1
-          block.call self
-        else
-          instance_eval &block
-        end
+    def eval_block
+      if @block
+        instance_eval &@block
       end
     end
 
