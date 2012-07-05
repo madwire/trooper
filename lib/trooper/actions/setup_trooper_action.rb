@@ -24,7 +24,6 @@ module Trooper
 
       def build_commands
         create_folders path, trooper_path
-        run "echo '#{@name}' > #{prerequisite_list}"
         run 'echo -e "Trooper Setup on Server"'
       end
       
