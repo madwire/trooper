@@ -18,6 +18,10 @@ action :restart do
   run 'touch tmp/restert.txt'
 end
 
+strategy :bootstrap, "Bootstrap application" do
+  actions :setup_trooper, :clone_repository
+end
+
 strategy :update, 'Update the code base on the server' do
   actions :update_repository, :install_gems
   call :restart

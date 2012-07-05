@@ -11,7 +11,7 @@ but I re-wrote it for public release and so has lost a lot of its maturity.
 
 ## Installation
 
-1. Super easy! `gem install trooper` or add it to your Gemfile `gem 'trooper'`
+1. Super easy! `gem install trooper --pre` or add it to your Gemfile `gem "trooper", "~> 0.6.0.beta"`
 2. Pop into your terminal and run `=> trooper init`
 3. Start building you deployment strategy :)
 
@@ -19,7 +19,7 @@ but I re-wrote it for public release and so has lost a lot of its maturity.
 
 `=> trooper deploy -e staging` or `=> trooper update`
 
-#### Define your own strategies and actions
+#### Define your own prerequisites, strategies and actions
 
 ```ruby
 action :restart_server, 'Restarting the server' do
@@ -27,11 +27,16 @@ action :restart_server, 'Restarting the server' do
   run "echo 'Restarted'"
 end
 
+strategy :bootstrap, "Bootstrap application" do
+  actions :setup_trooper, :clone_repository
+end
+
 strategy :restart, 'Restart application' do
   actions :restart_server
 end
 
 strategy :update, 'Update the code base on the server' do
+  prerequisites :bootstrap #run me just 1 time per server
   actions :update_repository, :install_gems
   call :restart # call another strategy
 end
@@ -61,12 +66,18 @@ action :restart do
   run "echo 'Restarted'"
 end
 
+strategy :bootstrap, "Bootstrap application" do
+  actions :setup_trooper, :clone_repository
+end
+
 strategy :update, 'Update the code base on the server' do
+  prerequisites :bootstrap
   actions :update_repository, :install_gems
   call :restart
 end
 
 strategy :deploy, 'Full deployment to the server' do
+  prerequisites :bootstrap
   call :update
   actions :migrate_database
   call :restart
