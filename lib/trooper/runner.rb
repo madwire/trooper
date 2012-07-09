@@ -1,57 +1,80 @@
-# encoding: utf-8
-
-require "net/ssh"
-
 module Trooper
   class Runner
-    
-    attr_reader :host, :user, :connection
-    
-    # pass the host, user and any net/ssh config options
-    #   Runner.new('my.example.com', 'admin', :forward_agent => false)
-    def initialize(host, user, options = { :forward_agent => true })
-      @host = host
-      @user = user
-      @connection = Net::SSH.start(host, user, options)
+
+    attr_reader :strategy, :config, :list
+
+    def initialize(strategy, config)
+      @strategy, @config = strategy, config
+      @list = strategy.build_execute_list config
     end
 
-    # returns user@host as a string
-    def to_s
-      "#{user}@#{host}"
-    end
-    
-    # execute a set of commands via net/ssh, returns and array or raises an exception
-    #   runner.execute(['cd to/path', 'touch file']) # => ['cd to/path && touch file', :stdout, '']
-    #   runner.execute('cat file') # => ['cat file', :stdout, 'file content']
-    def execute(command, options = {})
-      commands = parse command
-      Trooper.logger.debug commands
-      connection.exec! commands do |ch, stream, data|
-        raise Trooper::StdError, "#{data}\n[ERROR INFO] #{commands}" if stream == :stderr
-        ch.wait
-        return [commands, stream, data]
+    def execute
+      Trooper.logger.debug "Configuration\n#{config}"
+      Trooper.logger.strategy strategy.description
+      successful = nil
+      
+      hosts.each do |host|
+        begin
+          Trooper.logger.info "\e[4mRunning on #{host}\n"
+
+          list.each do |strategy_name, type, name|
+            # strategy_name, type, name
+            commands = build_commands strategy_name, type, name
+            runner_execute! host, commands if commands
+          end
+
+          successful = true
+          Trooper.logger.success "\e[4mAll Actions Completed\n"
+        rescue Exception => e
+          Trooper.logger.error "#{e.class.to_s} : #{e.message}\n\n#{e.backtrace.join("\n")}"
+
+          successful = false
+          break #stop commands running on other servers
+        ensure
+          host.close
+        end
       end
+      
+      successful
     end
-    
-    # close net/ssh connection
-    def close
-      connection.close
-    end
-    
-    private 
-    
-    # parse command, expects a string or array
-    #   parse(['cd to/path', 'touch file']) # => 'cd to/path && touch file'
-    def parse(command)
-      case command.class.name.downcase.to_sym #Array => :array
-      when :array
-        command.compact.join(' && ')
-      when :string
-        command.chomp
+
+    private
+
+    def build_commands(strategy_name, type, action_name)
+      action = Arsenal.actions[action_name]
+
+      if action
+        case type
+        when :prerequisite
+          commands = action.prerequisite_call config 
+          Trooper.logger.action "Prerequisite: #{action.description}"
+        else
+          commands = action.call config
+          Trooper.logger.action action.description
+        end
+        
+        commands
       else
-        raise Trooper::MalformedCommandError, "Command Not a String or Array: #{command.inspect}"
+        raise MissingActionError, "Cant find action: #{action_name}"
       end
     end
-    
+
+    def hosts
+      @hosts ||= begin
+        r, h, u = [], (config[:hosts] rescue nil), (config[:user] rescue nil)
+        h.each {|host| r << Host.new(host, u) } if h && u; r
+      end
+    end
+
+    def runner_execute!(host, commands, options = {})
+      result = host.execute commands, options
+      if result && result[1] == :stdout
+        Trooper.logger.info "#{result[2]}\n"
+        true
+      else 
+        false
+      end
+    end
+
   end
 end
