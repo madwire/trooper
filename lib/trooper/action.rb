@@ -42,6 +42,22 @@ module Trooper
       commands
     end
     alias :execute :call
+
+    # Public: Modifies the commands list to include the prerequisite list checker .
+    #
+    # configuration - The configuration object to be used for block eval.
+    #
+    # Examples
+    #
+    #   @action.call(config_object) # => "..." 
+    #
+    # Returns a command String.
+    def prerequisite_call(configuration)
+      original_commands = call configuration
+      original_commands << "echo '#{self.name}' >> #{prerequisite_list}"
+      original_commands << "echo '#{self.description}'"
+      "touch #{prerequisite_list}; if grep -vz #{self.name} #{prerequisite_list}; then #{original_commands.join(' && ')}; else echo 'Already Done'; fi" 
+    end
  
     # Public: Validates the action object. (NOT WORKING)
     #
