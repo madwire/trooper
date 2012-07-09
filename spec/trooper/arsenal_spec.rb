@@ -69,7 +69,7 @@ describe "Arsenal" do
     Trooper::Arsenal.strategies.count.should == 1
     Trooper::Arsenal.actions.add @klass
     Trooper::Arsenal.actions.count.should == 1
-    Trooper::Arsenal.reset!
+    Trooper::Arsenal.reset!.should == true
 
     Trooper::Arsenal.strategies.count.should == 0
     Trooper::Arsenal.actions.count.should == 0
