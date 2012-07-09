@@ -23,11 +23,13 @@ strategy :bootstrap, "Bootstrap application" do
 end
 
 strategy :update, 'Update the code base on the server' do
+  prerequisites :bootstrap
   actions :update_repository, :install_gems
   call :restart
 end
 
 strategy :deploy, 'Full deployment to the server' do
+  prerequisites :bootstrap
   call :update
   actions :migrate_database
   call :restart
