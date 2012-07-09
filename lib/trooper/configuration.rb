@@ -6,6 +6,8 @@ require 'trooper/config/environment'
 require 'trooper/config/strategy'
 require 'trooper/config/defaults'
 
+require 'trooper/runner'
+
 module Trooper
   class Configuration < Hash
 
@@ -42,7 +44,8 @@ module Trooper
     # will find and execute the strategy name passed
     #   @config.execute(:my_strategy_name)
     def execute(strategy_name)
-      Arsenal.strategies[strategy_name].execute self
+      strategy = Arsenal.strategies[strategy_name]
+      Runner.new(strategy, self).execute
     end
 
     # a way to set variables that will be available to all actions
