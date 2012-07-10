@@ -90,8 +90,10 @@ module Trooper
     # Returns nil.
     def actions(*action_names)
       [*action_names].each do |name| 
-        # strategy_name, type, name
-        @run_list << [self.name, :action, name]
+        if Arsenal.actions[name]
+          # strategy_name, type, name
+          @run_list << [self.name, Arsenal.actions[name].type, name]
+        end
       end
     end
 
@@ -111,7 +113,7 @@ module Trooper
       action_name = "#{self.name}_#{name}".to_sym
 
       action = Trooper::Action.new action_name, description, &block
-      Trooper::Arsenal.actions.add action
+      Arsenal.actions.add action
       actions action_name
       
       action

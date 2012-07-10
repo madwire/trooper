@@ -12,6 +12,13 @@ describe "Strategy" do
     before do
       configuration = Trooper::Configuration.new({:file_name => "spec/troopfiles/blankfile.rb", :random => 1})
 
+      [:my_action, :my_second_action, :another_strategy_action, :yet_another_strategy_action].each do |action_name|
+        action = Trooper::Action.new action_name, 'description' do
+          run 'touch test.txt'
+        end
+        Trooper::Arsenal.actions.add action
+      end
+      
       @strategy = Trooper::Strategy.new :my_strategy, 'description', configuration
       Trooper::Arsenal.strategies.add @strategy
       
