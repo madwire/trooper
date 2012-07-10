@@ -67,12 +67,12 @@ module Trooper
       else
 
         if commands != ''
-          begin
+          #begin
             stdin, stdout, stderr = Open3.popen3(commands)
             return [commands, :stdout, stdout.read]
-          rescue Exception => e
-            raise Trooper::StdError, "#{stderr}\n[ERROR INFO] #{commands}"
-          end
+          #rescue Exception => e
+          #  raise Trooper::StdError, "#{stderr}\n[ERROR INFO] #{commands}"
+          #end
         end
 
       end
