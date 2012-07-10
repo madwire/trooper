@@ -8,11 +8,11 @@ describe "Host" do
   describe "with valid username and host" do
     before do
       mock_net_ssh!
-      @runner = ::Trooper::Host.new('server.local','server_admin')
+      @host = ::Trooper::Host.new('server.local','server_admin')
     end
 
     after do
-      @runner.close
+      @host.close
     end
     
     describe "with string commands" do
@@ -20,7 +20,7 @@ describe "Host" do
       it "should return a stdout and message in an array with uname command" do
         connection.should_receive(:exec!).and_yield(channel, :stdout, 'Server Name 1')
         
-        result = @runner.execute('uname')
+        result = @host.execute('uname')
         result.class.should equal(Array)
         result[0].should == 'uname'
         result[1].should equal(:stdout)
@@ -30,7 +30,7 @@ describe "Host" do
       it "should return nil with an blank command" do
         connection.should_receive(:exec!).and_return(nil)
         
-        @runner.execute('').should equal(nil)
+        @host.execute('').should equal(nil)
       end
       
     end
@@ -40,7 +40,7 @@ describe "Host" do
       it "should return a stdout and message in an array with a valid command uname" do
         connection.should_receive(:exec!).and_yield(channel, :stdout, 'Server Name 3')
         
-        result = @runner.execute(['cd /', nil, 'uname'])
+        result = @host.execute(['cd /', nil, 'uname'])
         result.class.should equal(Array)
         result[0].should == 'cd / && uname'
         result[1].should equal(:stdout)
@@ -51,7 +51,7 @@ describe "Host" do
         connection.should_receive(:exec!).and_return(nil)
         
         command = [nil]
-        @runner.execute(command).should equal(nil)
+        @host.execute(command).should equal(nil)
       end
       
     end
@@ -62,11 +62,31 @@ describe "Host" do
       it "should raise an Trooper::StdError" do
         connection.should_receive(:exec!).and_yield(channel, :stderr, 'Server Name 5')
         
-        lambda { @runner.execute('some_command') }.should raise_error(Trooper::StdError)
+        lambda { @host.execute('some_command') }.should raise_error(Trooper::StdError)
       end
 
       it "should raise an Trooper::MalformedCommandError" do
-        lambda { @runner.execute(1) }.should raise_error(Trooper::MalformedCommandError)
+        lambda { @host.execute(1) }.should raise_error(Trooper::MalformedCommandError)
+      end
+      
+    end
+
+    describe "with local string commands" do
+      
+      it "should return a stdout and message in an array with uname command" do        
+        result = @host.execute("echo 'test'", :local => true)
+        result.class.should equal(Array)
+        result[0].should == "echo 'test'"
+        result[1].should equal(:stdout)
+        result[2].should == "test\n"
+      end
+      
+      it "should return nil with an blank command" do
+        @host.execute('', :local => true).should equal(nil)
+      end
+
+      it "should raise an Trooper::StdError" do  
+        lambda { @host.execute('some_command', :local => true) }.should raise_error(Trooper::StdError)
       end
       
     end

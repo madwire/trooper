@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require "net/ssh"
+require 'open3'
 
 module Trooper
   class Host
@@ -48,12 +49,32 @@ module Trooper
     #
     # Returns an array or raises an exception.
     def execute(command, options = {})
+      options = {} if options == nil
+      
       commands = parse command
       Trooper.logger.debug commands
-      connection.exec! commands do |ch, stream, data|
-        raise Trooper::StdError, "#{data}\n[ERROR INFO] #{commands}" if stream == :stderr
-        ch.wait
-        return [commands, stream, data]
+      
+      if !options[:local]
+
+        connection.exec! commands do |ch, stream, data|
+          raise Trooper::StdError, "#{data}\n[ERROR INFO] #{commands}" if stream == :stderr
+          ch.wait
+          return [commands, stream, data]
+        end
+        
+      else
+
+        if commands != ''
+          begin
+            stdout, stderr, status = Open3.capture3(commands)
+            if status.success?
+              return [commands, :stdout, stdout]
+            end
+          rescue Exception => e
+            raise Trooper::StdError, "#{stderr}\n[ERROR INFO] #{commands}"
+          end
+        end
+
       end
     end
     

@@ -36,8 +36,8 @@ module Trooper
 
           list.each do |strategy_name, type, name|
             # strategy_name, type, name
-            commands = build_commands strategy_name, type, name
-            runner_execute! host, commands if commands
+            commands, options = build_commands strategy_name, type, name
+            runner_execute! host, commands, options if commands
           end
 
           successful = true
@@ -62,6 +62,8 @@ module Trooper
       action = Arsenal.actions[action_name]
 
       if action
+        options = action.options
+
         case type
         when :prerequisite
           commands = action.prerequisite_call config 
@@ -71,7 +73,7 @@ module Trooper
           Trooper.logger.action action.description
         end
         
-        commands
+        [commands, options]
       else
         raise MissingActionError, "Cant find action: #{action_name}"
       end

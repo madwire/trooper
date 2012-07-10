@@ -8,13 +8,15 @@ module Trooper
     include Trooper::DSL::Rake
     include Trooper::DSL::Bundler
 
-    attr_reader :name, :description, :config, :block
+    attr_reader :name, :description, :config, :block, :options
     attr_accessor :commands
 
     # Public: Define a new action.
     #
     # name - The name of the action.
     # description - A description of action to be used in the cli output.
+    # options - The Hash options used to refine the selection (default: {}):
+    #             :local - A boolean of whether this action should be run locally (optional).
     # block - A block containing the tasks to run in this action.
     #
     # Examples
@@ -22,8 +24,8 @@ module Trooper
     #   Action.new(:my_action, 'Does great things') { run 'touch file' }
     #
     # Returns a new action object.
-    def initialize(name, description, &block)
-      @name, @description, @config = name, description, {}
+    def initialize(name, description, options = {}, &block)
+      @name, @description, @options, @config = name, description, options, {}
       @commands, @block = [], block
     end
 
@@ -68,6 +70,18 @@ module Trooper
     # Returns true.
     def ok?
       true
+    end
+
+    # Public: What type of action this is.
+    #
+    # Examples
+    #
+    #   @action.type # => :action
+    #   @action.type # => :local_action
+    #
+    # Returns a Symbol.
+    def type
+      options && options[:local] ? :local_action : :action
     end
 
     # run is the base run command used by the dsl

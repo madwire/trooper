@@ -10,7 +10,7 @@ describe "Action" do
       run 'touch test.txt'
     end
 
-    @action2 = Trooper::Action.new :my_action, 'description' do |a|
+    @action2 = Trooper::Action.new :my_action, 'description', :local => true do |a|
       a.run 'touch test.txt'
     end
   end
@@ -54,6 +54,11 @@ describe "Action" do
     @action.call(:my_var => 'my_var')
     @action.my_var.should == 'my_var'
     lambda { @action2.my_var.should == 'my_var' }.should raise_error(NoMethodError)
+  end
+
+  it "should be able to tell something what type it is" do
+    @action.type.should == :action
+    @action2.type.should == :local_action
   end
 
 end

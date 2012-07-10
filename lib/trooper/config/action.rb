@@ -20,8 +20,8 @@ module Trooper
                           Actions::RollbackMigrateAction, Actions::SetupDatabaseAction, 
                           Actions::UpdateRepositoryAction]
       
-      def action(name, description = "No Description", &block)
-        action = Trooper::Action.new name, description, &block
+      def action(name, description = "No Description", options = {}, &block)
+        action = Trooper::Action.new name, description, options, &block
         Trooper::Arsenal.actions.add action
       end
 
