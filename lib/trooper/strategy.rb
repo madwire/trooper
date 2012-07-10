@@ -10,12 +10,6 @@ module Trooper
       @run_list, @prereq_run_list, @block = [], [], block
     end
 
-    def build_execute_list(configuration)
-      @config = configuration
-      eval_block(&block)
-      list
-    end
-
     def ok?
       true
     end
@@ -23,7 +17,7 @@ module Trooper
     def call(*strategy_names)
       [*strategy_names].each do |strategy_name|
         if Arsenal.strategies[strategy_name]
-          Arsenal.strategies[strategy_name].build_execute_list(config).each do |action|
+          Arsenal.strategies[strategy_name].list(config).each do |action|
             # strategy_name, type, name
             @run_list << action
           end
@@ -38,7 +32,7 @@ module Trooper
 
       [*strategy_names].each do |strategy_name|
         if Arsenal.strategies[strategy_name]
-          Arsenal.strategies[strategy_name].build_execute_list(config).each do |action|
+          Arsenal.strategies[strategy_name].list(config).each do |action|
             # strategy_name, type, name
             @prereq_run_list << [action[0], :prerequisite, action[2]]
           end
@@ -53,7 +47,8 @@ module Trooper
       end
     end
 
-    def list
+    def list(configuration = {})
+      build_list(configuration) if run_list == []
       prereq_run_list + run_list
     end
 
@@ -62,6 +57,11 @@ module Trooper
     end
 
     private
+
+    def build_list(configuration)
+      @config = configuration
+      eval_block(&block)
+    end
 
     def eval_block(&block) # :nodoc:
       if block_given?

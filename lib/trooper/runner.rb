@@ -5,7 +5,7 @@ module Trooper
 
     def initialize(strategy, config)
       @strategy, @config = strategy, config
-      @list = strategy.build_execute_list config
+      @list = strategy.list config
     end
 
     def execute
