@@ -47,7 +47,7 @@ module Trooper
     }
 
     def call(severity, datetime, progname, message)
-      # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN < ACTION < SUCCESS
+      # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN < ACTION < SUCCESS < STRATEGY
       case severity
       when "DEBUG"
         colour("#{progname} => [#{severity}] #{message}\n", :yellow)

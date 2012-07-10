@@ -23,10 +23,11 @@ module Trooper
   class StdError < TrooperError
   end
 
-  # When a command is not formed corrently arrays or strings are exceptal commands
+  # When a command is not formed corrently, arrays or strings are exceptal commands
   class MalformedCommandError < TrooperError
   end
 
+  # When a configuration file is missing
   class NoConfigurationFileError < TrooperError
   end
 
