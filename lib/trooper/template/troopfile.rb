@@ -12,6 +12,10 @@ repository 'git@git.bar.co.uk:whatever.git'
 #   hosts 'stage.example.com', 'stage.example.com'
 # end
 
+# action :my_action, 'Do something locally', local: true do
+#   #some action
+# end
+
 strategy :bootstrap, 'Bootstraps the Application Server' do
   actions :setup_trooper, :clone_repository, :setup_database
 end
