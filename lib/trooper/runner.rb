@@ -3,11 +3,28 @@ module Trooper
 
     attr_reader :strategy, :config, :list
 
+    # Public: initialize a new Runner.
+    #
+    # strategy - A Trooper::Strategy object to execute.
+    # config - A Trooper::Configuration object to use for deployment.
+    #
+    # Examples
+    #
+    #   Runner.new(<Strategy>, <Configuration>) # => <Runner>
+    #
+    # Returns a new Runner object.
     def initialize(strategy, config)
       @strategy, @config = strategy, config
       @list = strategy.list config
     end
 
+    # Public: Executes the strategy across mutiple hosts logging output as it goes.
+    #
+    # Examples
+    #
+    #   @runner.execute # => true
+    #
+    # Returns a boolean.
     def execute
       Trooper.logger.debug "Configuration\n#{config}"
       Trooper.logger.strategy strategy.description
@@ -40,6 +57,7 @@ module Trooper
 
     private
 
+    # build the commands to be sent to the host object
     def build_commands(strategy_name, type, action_name)
       action = Arsenal.actions[action_name]
 
@@ -59,6 +77,7 @@ module Trooper
       end
     end
 
+    # returns an array of host objects
     def hosts
       @hosts ||= begin
         r, h, u = [], (config[:hosts] rescue nil), (config[:user] rescue nil)
@@ -66,6 +85,7 @@ module Trooper
       end
     end
 
+    # runs the commands on a host and deals with output
     def runner_execute!(host, commands, options = {})
       result = host.execute commands, options
       if result && result[1] == :stdout

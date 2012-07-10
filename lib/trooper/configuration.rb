@@ -15,6 +15,13 @@ module Trooper
     include Trooper::Config::Strategy
     include Trooper::Config::Defaults
 
+    # Public: Copies the template troopfile to current dir
+    #
+    # Examples
+    #
+    #   Configuration.init # => nil
+    #
+    # Returns nil.
     def self.init
       gem_dir = File.dirname(__FILE__)
 
@@ -27,8 +34,15 @@ module Trooper
       end
     end
     
-    # initialize a new configuration object, will parse the given troopfile.
-    #   Configuration.new({:my_override => 'settings'})
+    # Public: initialize a new configuration object, will parse the given troopfile
+    #
+    # options - Default options to combine with troopfile
+    #
+    # Examples
+    #
+    #   Configuration.new({:my_override => 'settings'}) # => <Configuration>
+    #
+    # Returns a configuration object.
     def initialize(options = {})
       @loaded = false
 
@@ -36,32 +50,58 @@ module Trooper
       load_troopfile! options
     end
 
-    # returns a terminal friendly version of the configuration 
+    # Public: Terminal Friendly version of the configuration.
+    #
+    # Examples
+    #
+    #   @configuration.to_s # => '...'
+    #
+    # Returns a String.
     def to_s
       config.map {|k,v| "#{k}: #{v}" }.join("\n")
     end
 
-    # will find and execute the strategy name passed
+    # Public: Find and Execute the Strategy.
+    #
+    # strategy_name - The name of the strategy as a symbol.
+    #
+    # Examples
+    #
     #   @config.execute(:my_strategy_name)
+    #
+    # Returns boolean.
     def execute(strategy_name)
       strategy = Arsenal.strategies[strategy_name]
       Runner.new(strategy, self).execute
     end
 
-    # a way to set variables that will be available to all actions
-    #   set(:my_variable => 'sdsd') # => available as method in an action
+    # Public: Set variables that will be available to all actions.
+    #
+    # hash - A key value hash to merge with config
+    #
+    # Examples
+    #
+    #   @config.set(:my_variable => 'sdsd') # => available as method in an action
+    #
+    # Returns self.
     def set(hash)
       config.merge! hash
     end
 
-    # returns true if the troopfile was loaded
+    # Public: Check to see if troopfile is loaded.
+    #
+    # Examples
+    #
+    #   @config.loaded? # => true
+    #
+    # Returns boolean.
     def loaded?
       @loaded
     end
 
     private
 
-    def config
+    def config # :nodoc:
       self
     end
 

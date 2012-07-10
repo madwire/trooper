@@ -10,25 +10,6 @@ repository 'git@git.bar.co.uk:whatever.git'
 # Set environment specific settings and or actions   
 # env :stage do
 #   hosts 'stage.example.com', 'stage.example.com'
-#   set :my_value => 'something_else'
-
-#   action :my_action do
-#     #something different for the stage env
-#   end
-# end
-
-# action :my_action do
-#   #some action
-# end
-
-# strategy :my_strategy, 'It does something cool' do
-#   prerequisites :setup
-#   actions :update_repository, :install_gems # use some built in actions
-#   #define my own action 
-#   action :my_other_action, 'Only avaliable in this strategy scope' do
-#     rake 'sometask'
-#   end
-#   call :restart
 # end
 
 strategy :bootstrap, 'Bootstraps the Application Server' do
@@ -51,3 +32,27 @@ end
 strategy :restart, 'Restart application' do
   actions :restart
 end
+
+# Set environment specific settings and or actions   
+# env :stage do
+#   hosts 'stage.example.com', 'stage.example.com'
+#   set :my_value => 'something_else'
+
+#   action :my_action do
+#     #something different for the stage env
+#   end
+# end
+
+# action :my_action do
+#   #some action
+# end
+
+# strategy :my_strategy, 'It does something cool' do
+#   prerequisites :bootstrap
+#   actions :update_repository, :install_gems # use some built in actions
+#   #define my own action 
+#   action :my_other_action, 'Only avaliable in this strategy scope' do
+#     rake 'sometask'
+#   end
+#   call :restart
+# end
