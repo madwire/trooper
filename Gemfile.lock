@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    trooper (0.6.0.beta)
+    trooper (0.6.0)
       net-ssh (~> 2.3.0)
 
 GEM

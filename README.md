@@ -4,43 +4,51 @@ Trooper is designed to give you the flexibility to deploy your code to any serve
 You design your deployment strategy to best fit your application and its needs. 
 Trooper comes with some built in actions that you can use in your own strategies or come up with entirely new ones.
 
-#### Please give me a try on your small project for now
-
-We have been using earlier versions of trooper were I work for the best part of 2 years, 
-but I re-wrote it for public release and so has lost a lot of its maturity.
-
 ## Installation
 
-1. Super easy! `gem install trooper --pre` or add it to your Gemfile `gem "trooper", "~> 0.6.0.beta"`
+1. Super easy! `gem install trooper` or add it to your Gemfile `gem "trooper", "~> 0.6.0"`
 2. Pop into your terminal and run `=> trooper init`
 3. Start building you deployment strategy :)
 
 ## Usage
 
-`=> trooper deploy -e staging` or `=> trooper update`
+`=> trooper deploy -e stage` or `=> trooper update`
 
-#### Define your own prerequisites, strategies and actions
+#### Action
+
+An Action is a set of commands to be run in sequence, they should be small units of work. Trooper 
+comes with some build in actions but you can of course overwrite them or ignore all together. 
+Actions can also be run locally by adding the local: true option
 
 ```ruby
-action :restart_server, 'Restarting the server' do
-  run 'touch tmp/restart.txt'
-  run "echo 'Restarted'"
+action :migrate_database, 'Migrating database' do
+  cd application_path
+  rake "db:migrate RAILS_ENV=#{environment}"
 end
 
-strategy :bootstrap, "Bootstrap application" do
-  actions :setup_trooper, :clone_repository
-end
-
-strategy :restart, 'Restart application' do
-  actions :restart_server
-end
-
-strategy :update, 'Update the code base on the server' do
-  prerequisites :bootstrap #run me just 1 time per server
-  actions :update_repository, :install_gems
-  call :restart # call another strategy
+action :precompile_assets, 'Precompile assets', local: true do
+  run 'do_stuff'
+  rake "assets:precompile"
 end
 ```
+
+#### Strategy
+
+A Strategy is collection of actions to be executed in sequence, A Strategy can call other
+strategies and have prerequisites.
+
+```ruby
+strategy :deploy, "Deploy application" do
+  actions :clone_repository, :install_gems, :migrate_database
+end
+```
+
+Once you've defined the your strategy you can call it e.g. `=> trooper my_strategy_name`
+
+#### Prerequisite
+
+A Prerequisite is a Strategy that can only run once per host
+
 
 #### Example Troopfile
 
