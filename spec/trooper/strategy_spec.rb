@@ -72,5 +72,14 @@ describe "Strategy" do
       @strategy.prerequisites(:another_strategy)
       @strategy.list.should == [[:my_strategy, :action, :prepare_prerequisite], [:another_strategy, :prerequisite, :another_strategy_action], [:my_strategy, :action, :my_action]]
     end
+
+    it 'should be able to define an action only available inside the strategy scope' do
+      @strategy.action :my_new_action, 'does something' do
+        run 'touch file'
+      end
+      @strategy.list.should == [[:my_strategy, :action, :my_strategy_my_new_action]]
+    end
+
+
   end
 end

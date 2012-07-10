@@ -47,6 +47,16 @@ module Trooper
       end
     end
 
+    def action(name, description = "No Description", &block)
+      action_name = "#{self.name}_#{name}".to_sym
+
+      action = Trooper::Action.new action_name, description, &block
+      Trooper::Arsenal.actions.add action
+      actions action_name
+      
+      action
+    end
+
     def list(configuration = {})
       build_list(configuration) if run_list == []
       prereq_run_list + run_list
