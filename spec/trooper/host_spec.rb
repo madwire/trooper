@@ -74,11 +74,11 @@ describe "Host" do
     describe "with local string commands" do
       
       it "should return a stdout and message in an array with uname command" do        
-        result = @host.execute("echo 'test'", :local => true)
+        result = @host.execute("pwd", :local => true)
         result.class.should equal(Array)
-        result[0].should == "echo 'test'"
+        result[0].should == "pwd"
         result[1].should equal(:stdout)
-        result[2].should == "test\n"
+        result[2].class.should == String
       end
       
       it "should return nil with an blank command" do

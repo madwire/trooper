@@ -40,12 +40,14 @@ module Trooper
     # Public: Execute a set of commands via net/ssh.
     #
     # command - A String or Array of command to run on a remote server
-    # options - Not currently implemented.
+    # options - The Hash options used to refine the selection (default: {}):
+    #             :local - Run the commands on the local machine (optional).
     #
     # Examples
     #
     #   runner.execute(['cd to/path', 'touch file']) # => ['cd to/path && touch file', :stdout, '']
     #   runner.execute('cat file') # => ['cat file', :stdout, 'file content']
+    #   runner.execute('cat file', :local => true) # => ['cat file', :stdout, 'file content']
     #
     # Returns an array or raises an exception.
     def execute(command, options = {})
