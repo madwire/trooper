@@ -31,4 +31,8 @@ module Trooper
   class NoConfigurationFileError < TrooperError
   end
 
+  # When an action is invalid
+  class InvalidActionError < TrooperError
+  end
+
 end

@@ -18,6 +18,11 @@ describe "Strategy" do
         end
         Trooper::Arsenal.actions.add action
       end
+
+      action = Trooper::Action.new :my_local_action, 'description', :local => true do
+        run 'touch test.txt'
+      end
+      Trooper::Arsenal.actions.add action
       
       @strategy = Trooper::Strategy.new :my_strategy, 'description', configuration
       Trooper::Arsenal.strategies.add @strategy
@@ -30,6 +35,11 @@ describe "Strategy" do
         actions :yet_another_strategy_action
       end
       Trooper::Arsenal.strategies.add @strategy3
+
+      @strategy4 = Trooper::Strategy.new :strategy_with_local_action, 'another_strategy_description' do
+        actions :another_strategy_action, :my_local_action
+      end
+      Trooper::Arsenal.strategies.add @strategy4
     end
 
     after do
@@ -85,6 +95,10 @@ describe "Strategy" do
         run 'touch file'
       end
       @strategy.list.should == [[:my_strategy, :action, :my_strategy_my_new_action]]
+    end
+
+    it "should not be able to add a prerequisite that has a local action" do
+      lambda { @strategy.prerequisites(:strategy_with_local_action) }.should raise_error(Trooper::InvalidActionError)
     end
 
 

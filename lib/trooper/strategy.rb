@@ -73,6 +73,9 @@ module Trooper
         if Arsenal.strategies[strategy_name]
           Arsenal.strategies[strategy_name].list(config).each do |action|
             # strategy_name, type, name
+            if action[1] == :local_action
+              raise InvalidActionError, 'Cant use prerequisite strategies that have local actions'
+            end
             @prereq_run_list << [action[0], :prerequisite, action[2]]
           end
         end  
