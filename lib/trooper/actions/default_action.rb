@@ -21,13 +21,8 @@ module Trooper
         @description = self.class.config[:description]
         @options = self.class.config[:options] || {}
         @config = config
+        @call_count = 0
         @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
       end
 
       private
