@@ -1,4 +1,4 @@
-# Trooper [![Build Status](https://secure.travis-ci.org/madwire/trooper.png?branch=master)](http://travis-ci.org/madwire/trooper)
+# Trooper [![Build Status](https://secure.travis-ci.org/madwire/trooper.png?branch=master)](http://travis-ci.org/madwire/trooper) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/madwire/trooper)
 
 Trooper is designed to give you the flexibility to deploy your code to any server in any way you like.
 You design your deployment strategy to best fit your application and its needs. 
@@ -6,7 +6,7 @@ Trooper comes with some built in actions that you can use in your own strategies
 
 ## Installation
 
-1. Super easy! `gem install trooper` or add it to your Gemfile `gem "trooper", "~> 0.6.0"`
+1. Super easy! `gem install trooper` or add it to your Gemfile `gem "trooper", "~> 0.6.1"`
 2. Pop into your terminal and run `=> trooper init`
 3. Start building you deployment strategy :)
 
@@ -38,7 +38,7 @@ A Strategy is collection of actions to be executed in sequence, A Strategy can c
 strategies and have prerequisites.
 
 ```ruby
-strategy :deploy, "Deploy application" do
+strategy :my_strategy_name, "A Description of what the strategy does" do
   actions :clone_repository, :install_gems, :migrate_database
 end
 ```
@@ -69,7 +69,7 @@ env :stage do
   end
 end
 
-action :restart do
+action :restart, 'Restarting the server' do
   run 'touch tmp/restert.txt'
   run "echo 'Restarted'"
 end
