@@ -105,6 +105,9 @@ module Trooper
     #
     # name - The name of the action.
     # description - A description of action to be used in the cli output.
+    # options - The Hash options used to refine the selection (default: {}):
+    #             :local - A boolean of whether this action should be run locally (optional).
+    #             :on - A symbol(:first_host, :last_host) to determine if to run on the first or last host (optional).
     # block - A block containing the tasks to run in this action.
     #
     # Examples
@@ -112,10 +115,10 @@ module Trooper
     #   @strategy.action(:my_action, 'Does great things') { run 'touch file' }
     #
     # Returns an Action object.
-    def action(name, description = "No Description", &block)
+    def action(name, description = "No Description", options = {}, &block)
       action_name = "#{self.name}_#{name}".to_sym
 
-      action = Trooper::Action.new action_name, description, &block
+      action = Trooper::Action.new action_name, description, options, &block
       Arsenal.actions.add action
       actions action_name
       
