@@ -47,7 +47,7 @@ end
 #   end
 # end
 
-# action :my_action do
+# action :my_action, 'Does Something', :on => :first_host do
 #   #some action
 # end
 
@@ -55,7 +55,7 @@ end
 #   prerequisites :bootstrap
 #   actions :update_repository, :install_gems # use some built in actions
 #   #define my own action 
-#   action :my_other_action, 'Only avaliable in this strategy scope' do
+#   action :my_other_action, 'Only avaliable in this strategy scope', :local => true do
 #     rake 'sometask'
 #   end
 #   call :restart
