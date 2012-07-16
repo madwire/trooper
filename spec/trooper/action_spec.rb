@@ -41,6 +41,13 @@ describe "Action" do
     @action2.commands.should == ['touch test.txt']
   end
 
+  it "should not duplicate the commands if called again" do
+    @action.call(:my_var => 'my_var')
+    @action.commands.should == ['touch test.txt']
+    @action.call(:my_var => 'my_var')
+    @action.commands.should == ['touch test.txt']
+  end
+
   it "should add strings to the commands array" do
     @action.commands.clear
 

@@ -81,7 +81,7 @@ describe "Runner" do
     it "should build the commands" do
       @runner.send(:build_commands, :my_strategy, :action, :successful_action).should == [["touch test.txt"], {}]
       @runner.send(:build_commands, :another_strategy, :action, :successful_action2).should == [["cd ~", "touch test.txt"], {}]
-      @runner.send(:build_commands, :yet_another_strategy, :prerequisite, :successful_action2).should == ["touch prerequisite_list; if grep -vz successful_action2 prerequisite_list; then cd ~ && touch test.txt && cd ~ && touch test.txt && echo 'successful_action2' >> prerequisite_list && echo 'description'; else echo 'Already Done'; fi", {}]
+      @runner.send(:build_commands, :yet_another_strategy, :prerequisite, :successful_action2).should == ["touch prerequisite_list; if grep -vz successful_action2 prerequisite_list; then cd ~ && touch test.txt && echo 'successful_action2' >> prerequisite_list && echo 'description'; else echo 'Already Done'; fi", {}]
     end
   end
 
