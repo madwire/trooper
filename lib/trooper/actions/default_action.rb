@@ -8,7 +8,6 @@ module Trooper
       class << self
         attr_accessor :config
 
-        %w(name description).each do |method|
         %w(name description options).each do |method|
           define_method(method) do |value| 
             self.config = {} unless self.config
