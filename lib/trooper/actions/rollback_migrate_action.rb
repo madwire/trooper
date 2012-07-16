@@ -6,6 +6,7 @@ module Trooper
     class RollbackMigrateAction < DefaultAction
       name :rollback_migrate
       description "Rollback database"
+      options :on => :first_host
       
       private
 

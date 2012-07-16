@@ -6,6 +6,7 @@ module Trooper
     class MigrateDatabaseAction < DefaultAction
       name :migrate_database
       description "Migrating database"
+      options :on => :first_host
 
       private
 

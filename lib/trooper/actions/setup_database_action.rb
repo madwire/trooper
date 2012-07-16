@@ -6,7 +6,8 @@ module Trooper
     class SetupDatabaseAction < DefaultAction
       name :setup_database
       description "Setting up database"
-
+      options :on => :first_host
+      
       private
 
       def build_commands
