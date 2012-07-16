@@ -13,6 +13,14 @@ describe "Action" do
     @action2 = Trooper::Action.new :my_action, 'description', :local => true do |a|
       a.run 'touch test.txt'
     end
+
+    @action_first_only = Trooper::Action.new :my_action_first, 'description', :on => :first_host do |a|
+      a.run 'touch test.txt'
+    end
+
+    @action_last_only = Trooper::Action.new :my_action_last, 'description', :on => :last_host do |a|
+      a.run 'touch test.txt'
+    end
   end
 
   after do
@@ -66,6 +74,18 @@ describe "Action" do
   it "should be able to tell something what type it is" do
     @action.type.should == :action
     @action2.type.should == :local_action
+  end
+
+  it "should only run on the first host if :on => first_host option passed" do
+    @action_first_only.call(:hosts => ['a','b','c']).should == ['touch test.txt']
+    @action_first_only.call(:hosts => ['a','b','c']).should == []
+    @action_first_only.call(:hosts => ['a','b','c']).should == []
+  end
+
+  it "should only run on the last host if :on => last_host option passed" do
+    @action_last_only.call(:hosts => ['a','b','c']).should == []
+    @action_last_only.call(:hosts => ['a','b','c']).should == []
+    @action_last_only.call(:hosts => ['a','b','c']).should == ['touch test.txt']
   end
 
 end

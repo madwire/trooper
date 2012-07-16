@@ -17,6 +17,7 @@ module Trooper
     # description - A description of action to be used in the cli output.
     # options - The Hash options used to refine the selection (default: {}):
     #             :local - A boolean of whether this action should be run locally (optional).
+    #             :on - A symbol(:first_host, :last_host) to determine if to run on the first or last host (optional).
     # block - A block containing the tasks to run in this action.
     #
     # Examples
@@ -26,7 +27,7 @@ module Trooper
     # Returns a new action object.
     def initialize(name, description, options = {}, &block)
       @name, @description, @options, @config = name, description, options, {}
-      @commands, @block = [], block
+      @call_count, @commands, @block = 0, [], block
     end
 
     # Public: Eval's the block passed on initialize.
@@ -40,8 +41,16 @@ module Trooper
     # Returns an array of commands(strings).
     def call(configuration)
       @config = configuration
-      eval_block(&block)
-      commands
+      @call_count += 1
+
+      if continue_call?
+        reset_commands!
+        
+        build_commands
+        commands
+      else
+        reset_commands!
+      end
     end
     alias :execute :call
 
@@ -100,11 +109,45 @@ module Trooper
       commands << command if command != ''
     end
 
+    # Public: Resets Action commands to blank.
+    #
+    # Examples
+    #
+    #   @action.reset_commands! # => []
+    #
+    # Returns a blank array.
+    def reset_commands!
+      self.commands = []
+    end
+
     def method_missing(method_sym, *arguments, &block) # :nodoc:
       config[method_sym] || super
     end
 
     private
+
+    # builds commands array from block passed on init
+    def build_commands
+      eval_block(&block)
+    end
+
+    # determines whether to continue calling, to build the commands array
+    def continue_call?
+      if options && options[:on]
+        
+        case options[:on]
+        when :first_host
+          @call_count == 1
+        when :last_host
+          config[:hosts] && @call_count == config[:hosts].count
+        else
+          true
+        end
+      
+      else
+        true
+      end
+    end
 
     def eval_block(&block) # :nodoc:
       if block_given?
