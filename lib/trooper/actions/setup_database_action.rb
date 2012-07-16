@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class SetupDatabaseAction < Action
-
-      def initialize(config = {})
-        @name = :setup_database
-        @description = "Setting up database"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class SetupDatabaseAction < DefaultAction
+      name :setup_database
+      description "Setting up database"
 
       private
 

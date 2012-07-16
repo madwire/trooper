@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class MigrateDatabaseAction < Action
-
-      def initialize(config = {})
-        @name = :migrate_database
-        @description = "Migrating database"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class MigrateDatabaseAction < DefaultAction
+      name :migrate_database
+      description "Migrating database"
 
       private
 

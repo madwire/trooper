@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class UpdateRepositoryAction < Action
-
-      def initialize(config = {})
-        @name = :update_repository
-        @description = "Updating repository"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class UpdateRepositoryAction < DefaultAction
+      name :update_repository
+      description "Updating repository"
 
       private
 

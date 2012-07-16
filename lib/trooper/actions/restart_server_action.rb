@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class RestartServerAction < Action
-
-      def initialize(config = {})
-        @name = :restart_server
-        @description = "Restart server"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class RestartServerAction < DefaultAction
+      name :restart_server
+      description "Restart server"
 
       private
 

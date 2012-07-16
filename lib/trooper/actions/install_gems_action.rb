@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class InstallGemsAction < Action
-
-      def initialize(config = {})
-        @name = :install_gems
-        @description = "Installing Gems with Bundler"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class InstallGemsAction < DefaultAction
+      name :install_gems
+      description "Installing Gems with Bundler"
 
       private
 

@@ -1,24 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class SetupTrooperAction < Action
-
-      def initialize(config = {})
-        @name = :setup_trooper
-        @description = "Setup Trooper"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        @commands = []
-
-        build_commands
-        commands
-      end
+    class SetupTrooperAction < DefaultAction
+      name :setup_trooper
+      description "Setup Trooper"
 
       private
 

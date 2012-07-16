@@ -1,22 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class CloneRepositoryAction < Action
-
-      def initialize(config = {})
-        @name = :clone_repository
-        @description = "Cloning repository as 'application'"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        build_commands
-        commands
-      end
+    class CloneRepositoryAction < DefaultAction
+      name :clone_repository
+      description "Cloning repository as 'application'"
 
       private
 

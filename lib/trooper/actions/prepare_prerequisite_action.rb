@@ -1,24 +1,11 @@
-require 'trooper/action'
+require 'trooper/actions/default_action'
 
 module Trooper
   module Actions
 
-    class PreparePrerequisiteAction < Action
-
-      def initialize(config = {})
-        @name = :prepare_prerequisite
-        @description = "Preparing Prerequisites"
-        @config = config
-        @commands = []
-      end
-
-      def call(configuration)
-        @config = configuration
-        @commands = []
-
-        build_commands
-        commands
-      end
+    class PreparePrerequisiteAction < DefaultAction
+      name :prepare_prerequisite
+      description "Preparing Prerequisites"
 
       private
 
