@@ -9,6 +9,7 @@ module Trooper
         attr_accessor :config
 
         %w(name description).each do |method|
+        %w(name description options).each do |method|
           define_method(method) do |value| 
             self.config = {} unless self.config
             self.config[method.to_sym] = value
@@ -19,6 +20,7 @@ module Trooper
       def initialize(config = {})
         @name = self.class.config[:name]
         @description = self.class.config[:description]
+        @options = self.class.config[:options] || {}
         @config = config
         @commands = []
       end
