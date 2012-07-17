@@ -25,6 +25,13 @@ module Trooper
         @commands = []
       end
 
+      # Always returns true because default actions are 
+      # loaded before the troopfile, so varibles will 
+      # always be missing.
+      def ok?
+        true
+      end
+
       private
 
       def build_commands
