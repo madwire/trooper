@@ -93,8 +93,7 @@ describe "Runner" do
 
       #actions
       @unsuccessful_action = Trooper::Action.new :unsuccessful_action, 'description' do
-        run 'cd ~'
-        run 'touch test.txt'
+        run 'some_command'
       end
       Trooper::Arsenal.actions.add @unsuccessful_action
 
