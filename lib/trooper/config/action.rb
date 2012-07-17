@@ -19,7 +19,7 @@ module Trooper
                           Actions::CloneRepositoryAction, Actions::InstallGemsAction, 
                           Actions::MigrateDatabaseAction, Actions::RestartServerAction, 
                           Actions::RollbackMigrateAction, Actions::SetupDatabaseAction, 
-                          Actions::UpdateRepositoryAction. Action::PrecompileAssetsAction]
+                          Actions::UpdateRepositoryAction, Actions::PrecompileAssetsAction]
       
       def action(name, description = "No Description", options = {}, &block)
         action = Trooper::Action.new name, description, options, &block
