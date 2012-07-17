@@ -73,7 +73,7 @@ module Trooper
 
             return [commands, :stdout, stdout.read]
           rescue Exception => e
-            raise Trooper::StdError, "#{stderr}\n[ERROR INFO] #{commands}"
+            raise Trooper::StdError, "#{e.message}\n[ERROR INFO] #{commands}"
           end
         end
 
