@@ -17,14 +17,14 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{bin,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
-  s.add_runtime_dependency "net-ssh", "~> 2.3.0"
+  s.add_runtime_dependency "net-ssh", "~> 2.5.2"
 
-  s.add_development_dependency "rspec", "~> 2.8"
-  s.add_development_dependency "guard-rspec", "~> 0.6"
+  s.add_development_dependency "rspec", "~> 2.11"
+  s.add_development_dependency "guard-rspec", "~> 1.2"
   s.add_development_dependency "rb-fsevent"
-  s.add_development_dependency "yard", "~> 0.7"
+  s.add_development_dependency "yard", "~> 0.8"
   s.add_development_dependency "pry", "~> 0.9"
   s.add_development_dependency "sdoc", '~> 0.3.16'
-  s.add_development_dependency "simplecov", "~> 0.5.4"
+  s.add_development_dependency "simplecov", "~> 0.6.4"
   s.add_development_dependency 'rake', "~> 0.9.2"
 end
