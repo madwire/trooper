@@ -23,6 +23,8 @@ module Trooper
       
       def action(name, description = "No Description", options = {}, &block)
         action = Trooper::Action.new name, description, options, &block
+        action.config = self
+
         Trooper::Arsenal.actions.add action
       end
 

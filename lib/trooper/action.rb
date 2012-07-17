@@ -8,8 +8,8 @@ module Trooper
     include Trooper::DSL::Rake
     include Trooper::DSL::Bundler
 
-    attr_reader :name, :description, :config, :block, :options
-    attr_accessor :commands
+    attr_reader :name, :description, :block, :options
+    attr_accessor :config, :commands
 
     # Public: Define a new action.
     #
