@@ -43,7 +43,7 @@ module Trooper
       @config = configuration
       @call_count += 1
 
-      if continue_call?
+      if everything_ok? && continue_call?
         reset_commands!
         
         build_commands
@@ -70,16 +70,23 @@ module Trooper
       "touch #{prerequisite_list}; if grep -vz #{self.name} #{prerequisite_list}; then #{original_commands.join(' && ')}; else echo 'Already Done'; fi" 
     end
  
-    # Public: Validates the action object. (NOT WORKING)
+    # Public: Validates the action object.
     #
     # Examples
     #
     #   @action.ok? # => true
     #
-    # Returns true.
+    # Returns true or raise an InvalidActionError exception.
     def ok?
-      true
+      begin
+        build_commands
+        reset_commands!
+        true
+      rescue Exception => e
+        raise InvalidActionError, "Action missing config variables - #{e.message}"
+      end
     end
+    alias :everything_ok? :ok?
 
     # Public: What type of action this is.
     #

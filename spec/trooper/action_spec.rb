@@ -7,7 +7,7 @@ describe "Action" do
 
   before do
     @action = Trooper::Action.new :my_action, 'description' do
-      run 'touch test.txt'
+      run "touch #{my_var}.txt"
     end
 
     @action2 = Trooper::Action.new :my_action, 'description', :local => true do |a|
@@ -36,14 +36,19 @@ describe "Action" do
   end
 
   it "should be able to call the action after init" do
-    @action.call(:my_var => 'my_var').should == ['touch test.txt']
+    @action.call(:my_var => 'my_var').should == ['touch my_var.txt']
 
     @action2.commands.should == []
   end
 
+  it "should validate that an action has all the variables it needs" do
+    @action.call(:my_var => 'my_var').should == ['touch my_var.txt']
+    lambda { @action.call({}) }.should raise_error(Trooper::InvalidActionError)
+  end
+
   it "should be able to pass a block" do
     @action.call(:my_var => 'my_var')
-    @action.commands.should == ['touch test.txt']
+    @action.commands.should == ['touch my_var.txt']
 
     @action2.call(:my_var => 'my_var')
     @action2.commands.should == ['touch test.txt']
@@ -51,9 +56,9 @@ describe "Action" do
 
   it "should not duplicate the commands if called again" do
     @action.call(:my_var => 'my_var')
-    @action.commands.should == ['touch test.txt']
+    @action.commands.should == ['touch my_var.txt']
     @action.call(:my_var => 'my_var')
-    @action.commands.should == ['touch test.txt']
+    @action.commands.should == ['touch my_var.txt']
   end
 
   it "should add strings to the commands array" do
