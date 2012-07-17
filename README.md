@@ -6,7 +6,7 @@ Trooper comes with some built in actions that you can use in your own strategies
 
 ## Installation
 
-1. Super easy! `gem install trooper` or add it to your Gemfile `gem "trooper", "~> 0.6.1"`
+1. Super easy! `gem install trooper` or add it to your Gemfile `gem "trooper", "~> 0.6"`
 2. Pop into your terminal and run `=> trooper init`
 3. Start building you deployment strategy :)
 
