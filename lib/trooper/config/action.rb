@@ -9,6 +9,7 @@ require 'trooper/actions/rollback_migrate_action'
 require 'trooper/actions/setup_database_action'
 require 'trooper/actions/setup_trooper_action'
 require 'trooper/actions/update_repository_action'
+require 'trooper/actions/precompile_assets_action'
 
 module Trooper
   module Config
@@ -18,7 +19,7 @@ module Trooper
                           Actions::CloneRepositoryAction, Actions::InstallGemsAction, 
                           Actions::MigrateDatabaseAction, Actions::RestartServerAction, 
                           Actions::RollbackMigrateAction, Actions::SetupDatabaseAction, 
-                          Actions::UpdateRepositoryAction]
+                          Actions::UpdateRepositoryAction. Action::PrecompileAssetsAction]
       
       def action(name, description = "No Description", options = {}, &block)
         action = Trooper::Action.new name, description, options, &block
