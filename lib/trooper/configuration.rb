@@ -61,18 +61,18 @@ module Trooper
       config.map {|k,v| "#{k}: #{v}" }.join("\n")
     end
 
-    # Public: Find and Execute the Strategy.
+    # Public: Finds a Strategy and returns a runner for that strategy.
     #
     # strategy_name - The name of the strategy as a symbol.
     #
     # Examples
     #
-    #   @config.execute(:my_strategy_name)
+    #   @config.runner(:my_strategy_name) # => <Runner>
     #
-    # Returns boolean.
-    def execute(strategy_name)
+    # Returns a runner.
+    def runner(strategy_name)
       strategy = Arsenal.strategies[strategy_name]
-      Runner.new(strategy, self).execute
+      Runner.new(strategy, self)
     end
 
     # Public: Set variables that will be available to all actions.

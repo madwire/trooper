@@ -45,6 +45,10 @@ describe "Configuration" do
       Trooper::Arsenal.actions.count.should == Trooper::Config::Action::DEFAULT_ACTIONS.count
     end
 
+    it "should give me a new instance of Trooper::Runner when calling runner" do
+      @configuration.runner.class.should == Trooper::Runner
+    end
+
   end
 
   describe "with diffent configuration files" do
