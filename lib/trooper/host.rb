@@ -20,7 +20,7 @@ module Trooper
     #   Host.new('my.example.com', 'admin', :forward_agent => false)
     #
     # Returns a Host object.
-    def initialize(host, user, options = { :forward_agent => true })
+    def initialize(host, user, options = { :forward_agent => true, :paranoid => Net::SSH::Verifiers::Null.new })
       @host = host
       @user = user
       @connection = Net::SSH.start(host, user, options)
