@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.3
+- configuration is now not responsible for executing a strategy
+- fixed cli options typo
+- ignore HostKeyMismatch
+- Update Dependency - net-ssh ~> 2.6.8
+
 ## 0.6.2
 - Update Dependency - net-ssh ~> 2.5.2
 - Actions now validate before adding to store
