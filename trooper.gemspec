@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{bin,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
-  s.add_runtime_dependency "net-ssh", "~> 2.5.2"
+  s.add_runtime_dependency "net-ssh", "~> 2.6.8"
 
   s.add_development_dependency "rspec", "~> 2.11"
   s.add_development_dependency "guard-rspec", "~> 1.2"

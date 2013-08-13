@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    trooper (0.6.2)
-      net-ssh (~> 2.5.2)
+    trooper (0.6.3)
+      net-ssh (~> 2.6.8)
 
 GEM
   remote: http://rubygems.org/
@@ -22,7 +22,7 @@ GEM
       rb-inotify (~> 0.8.8)
     method_source (0.8)
     multi_json (1.3.6)
-    net-ssh (2.5.2)
+    net-ssh (2.6.8)
     pry (0.9.10)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
