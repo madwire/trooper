@@ -1,3 +1,5 @@
+require 'trooper/host'
+
 module Trooper
   class Runner
 
