@@ -46,7 +46,7 @@ describe "Configuration" do
     end
 
     it "should give me a new instance of Trooper::Runner when calling runner" do
-      @configuration.runner.class.should == Trooper::Runner
+      @configuration.runner(:deploy).class.should == Trooper::Runner
     end
 
   end
