@@ -1,4 +1,4 @@
-# Trooper [![Build Status](https://secure.travis-ci.org/madwire/trooper.png?branch=master)](http://travis-ci.org/madwire/trooper) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/madwire/trooper)
+# Trooper [![Build Status](https://secure.travis-ci.org/madwire/trooper.png?branch=master)](http://travis-ci.org/madwire/trooper) [![Code Climate](https://codeclimate.com/github/madwire/trooper.png)](https://codeclimate.com/github/madwire/trooper)
 
 Trooper is designed to give you the flexibility to deploy your code to any server in any way you like.
 You design your deployment strategy to best fit your application and its needs. 
