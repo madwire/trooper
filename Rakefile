@@ -21,7 +21,7 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.options << '-f' << 'sdoc'
   rdoc.options << '-c' << 'utf-8'
   rdoc.options << '-t' << 'rails'
-  #rdoc.options << '-g' # SDoc flag, link methods to GitHub
+  rdoc.options << '-g' # SDoc flag, link methods to GitHub
   rdoc.rdoc_files.include('README.md')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
