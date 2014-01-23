@@ -94,6 +94,10 @@ describe "Configuration" do
       @configuration[:my_value].should  == 'something'
     end
 
+    it "should import another file and eval its content" do
+      @configuration[:file_imported].should == true
+    end
+
   end
 
   describe "with the default(production) configuration file" do
@@ -116,6 +120,11 @@ describe "Configuration" do
 
     it "should have 8 defaults and 1 custom action in its arsenal" do
       Trooper::Arsenal.actions.count.should == (Trooper::Config::Action::DEFAULT_ACTIONS.count + 1)
+    end
+
+    it "should import another file and eval its content" do
+      @configuration[:file_imported].should == true
+      @configuration[:hello_world].should == 'hello'
     end
 
   end

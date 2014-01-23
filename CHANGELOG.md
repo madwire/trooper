@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.0
+- You can now import other troopfiles
+
 ## 0.6.3
 - configuration is now not responsible for executing a strategy
 - fixed cli options typo

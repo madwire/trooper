@@ -1,3 +1,7 @@
+import 'blankfile'
+import 'blankfile.rb'
+import 'subfolder/anotherfile'
+
 user 'my_user'
 hosts 'stage.example.com'
 repository 'git@git.bar.co.uk:whatever.git'
@@ -38,3 +42,5 @@ end
 strategy :restart, 'Restart application' do
   actions :restart
 end
+
+test_test 'hello'

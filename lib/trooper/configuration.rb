@@ -99,6 +99,24 @@ module Trooper
       @loaded
     end
 
+    # Public: Will allow user in import another troopfile.
+    #
+    # Examples
+    #
+    #   @config.import('filename') # => nil
+    #
+    # Returns nil.
+    def import(name)
+      extname = File.extname(name).empty? ? ".rb" : nil
+      filename =  File.join(troopfile_dir, "#{name}#{extname}")
+      if File.exists?(filename)
+        eval File.open(filename).read
+        nil
+      else
+        raise Trooper::NoConfigurationFileError, "No Import Configuration file (#{self[:file_name]}) can be found!"
+      end
+    end
+
     private
 
     def config # :nodoc:
@@ -126,6 +144,10 @@ module Trooper
     # returns true if the troopfile exists
     def troopfile?
       File.exists?(config[:file_name])
+    end
+
+    def troopfile_dir
+      File.dirname(File.realpath(config[:file_name]))
     end
 
   end
