@@ -1,3 +1,5 @@
+import 'subfolder/anotherfile'
+
 user 'my_user'
 hosts 'stage.example.com'
 repository 'git@git.bar.co.uk:whatever.git'

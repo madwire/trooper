@@ -53,6 +53,8 @@ A Prerequisite is a Strategy that can only run once per host
 #### Example Troopfile
 
 ```ruby
+import 'subfolder/anotherfile'
+
 user 'my_user'
 hosts 'production1.example.com', 'production2.example.com'
 repository 'git@git.foo.co.uk:bar.git'
