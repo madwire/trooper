@@ -19,12 +19,12 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "net-ssh", "~> 2.6.8"
 
-  s.add_development_dependency "rspec", "~> 2.11"
-  s.add_development_dependency "guard-rspec", "~> 1.2"
+  s.add_development_dependency "rspec", "~> 2.14"
+  s.add_development_dependency "guard-rspec", "~> 4.2.4"
   s.add_development_dependency "rb-fsevent"
   s.add_development_dependency "yard", "~> 0.8"
   s.add_development_dependency "pry", "~> 0.9"
-  s.add_development_dependency "sdoc", '~> 0.3.16'
-  s.add_development_dependency "simplecov", "~> 0.6.4"
-  s.add_development_dependency 'rake', "~> 0.9.2"
+  s.add_development_dependency "sdoc", '~> 0.4'
+  s.add_development_dependency "simplecov", "~> 0.8.2"
+  s.add_development_dependency 'rake', "~> 10.1.1"
 end
